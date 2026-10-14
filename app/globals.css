@@ -209,7 +209,7 @@ html.tob-motion .tob-intro:not(.is-ready) .tob-enter { opacity: 0; animation: to
 
 /* Original approved render; SVG windows provide independently moving artwork. */
 .reference-hero { position: relative; height: 100vh; height: 100svh; overflow: hidden; background: #F4E9DC; }
-html.tob-motion .reference-hero { position: absolute; inset: 0 0 auto; z-index: 20; }
+html.tob-motion .reference-hero { position: absolute; inset: 0 0 auto; z-index: 20; background: none; }
 .reference-art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .reference-header { position: absolute; inset: 0 0 auto; z-index: 10; opacity: 0; }
 .reference-mobile-copy { display: none; }
@@ -223,3 +223,10 @@ html.tob-motion .reference-original { display: none; }
   .reference-mobile-copy .tob-copy { top: 53svh; }
   .reference-blue { transform: translate(-190px, 650px); }
 }
+
+/* The title paints above the portal artwork, at the measured O centre. */
+.reference-title { z-index: 2; font-size: clamp(14px, 2vw, 30px); color: #111; pointer-events: none; }
+.reference-scroll-cue { position: absolute; z-index: 3; left: 50%; bottom: clamp(18px, 2.5svh, 32px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: clamp(12px, 0.85vw, 16px); line-height: 1.2; pointer-events: none; }
+html:not(.tob-motion) .reference-scroll-cue { display: none; }
+
+.reference-scroll-cue svg { width: clamp(18px, 0.9vw, 24px); height: clamp(18px, 0.9vw, 24px); }

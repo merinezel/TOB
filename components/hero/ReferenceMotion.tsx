@@ -19,19 +19,22 @@ export default function ReferenceMotion() {
     const title = el("[data-reference-title]");
     const mm = gsap.matchMedia();
     mm.add({ motion: "(prefers-reduced-motion: no-preference)", mobile: "(max-width: 767px)" }, ({ conditions }) => {
-      const { motion } = conditions as Record<string, boolean>;
+      const { motion, mobile } = conditions as Record<string, boolean>;
       root.classList.toggle("tob-motion", motion);
       intro.classList.add("is-ready");
       if (!motion) return;
       const O = el('[data-reference-letter="o"]');
       const plate = el("[data-reference-plate]");
-      const geo = { scale: 1, ox: 0, oy: 0, end: 12 };
+      const geo = { scale: 1, ox: 0, oy: 0, end: 12, blueX: 0, blueY: 0 };
       const measure = () => {
         // Use the SVG's mapping itself so the text, plate and O cannot drift on resize.
         const matrix = (art as unknown as SVGSVGElement).getScreenCTM();
         if (!matrix) return;
         const h = hero.getBoundingClientRect();
         geo.scale = matrix.a;
+        geo.blueX = mobile ? -190 : (hero.clientWidth - (1586 * matrix.a + matrix.e - h.left)) / matrix.a;
+        geo.blueY = mobile ? 650 : 0;
+        gsap.set(el(".reference-blue"), { x: geo.blueX, y: geo.blueY });
         geo.ox = 769 * matrix.a + matrix.e - h.left;
         geo.oy = 475 * matrix.d + matrix.f - h.top;
         geo.end = Math.max(2.2, (Math.hypot(Math.max(geo.ox, hero.clientWidth - geo.ox),
@@ -77,8 +80,8 @@ export default function ReferenceMotion() {
         const dy = id === "gift" ? 100 : id === "cup" ? -40 : id === "spiral" ? -50 : box.y + box.height / 2 < 470 ? -70 : 70;
         const destination = () => {
           const matrix = (art as unknown as SVGSVGElement).getScreenCTM()!;
-          const parentY = node.dataset.referencePiece === "blue" && innerWidth < 768 ? 650 : 0;
-          const parentX = node.dataset.referencePiece === "blue" && innerWidth < 768 ? -190 : 0;
+          const parentY = node.dataset.referencePiece === "blue" ? geo.blueY : 0;
+          const parentX = node.dataset.referencePiece === "blue" ? geo.blueX : 0;
           const viewport = hero.getBoundingClientRect();
           const minX = (viewport.left - matrix.e) / matrix.a - parentX;
           const minY = (viewport.top - matrix.f) / matrix.d - parentY;
