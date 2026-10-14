@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --tobs-red: #C4070D;
+  --tobs-black: #111111;
+  --tobs-cream: #F5F1EA;
+  --tobs-white: #FAF9F6;
+  --tobs-grey: #D8D5CF;
+  --tobs-dark-grey: #363636;
+  /* intro hero: warm cream, lighter in the middle */
+  --tob-warm-light: #FAF3EB;
+  --tob-warm-mid: #F4E8DC;
+  --tob-warm-edge: #EAD7C4;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
+body { background: var(--tobs-cream); color: var(--tobs-black); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+::selection { background: var(--tobs-red); color: #fff; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+
+
+/* Archivo at weight 900, condensed along the width axis to match the reference proportions. */
+.font-poster { font-weight: 900; font-variation-settings: "wdth" 72; }
+
+/* Sphere: specular highlight, red body, core shadow, cream rim bounce, soft ambient glow. */
+.tobs-ball {
+  background:
+    radial-gradient(ellipse 34% 20% at 33% 21%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle at 29% 23%, rgba(255, 255, 255, 0.95) 0 2.2%, rgba(255, 255, 255, 0) 8%),
+    radial-gradient(circle at 36% 30%, #ff5560 0%, #d10f19 28%, #a00811 58%, #4c030a 100%);
+  box-shadow:
+    inset -10px -16px 24px rgba(50, 0, 6, 0.55),
+    inset 7px 8px 14px rgba(255, 150, 155, 0.3),
+    inset 0 -4px 8px -2px rgba(255, 215, 200, 0.55),
+    0 0 26px rgba(196, 7, 13, 0.2);
+}
+
+/* Cream stage: soft key light top-left, gentle vignette, faint paper grain. */
+.tobs-stage {
+  background-color: #f5f1ea;
+  background-image:
+    radial-gradient(110% 85% at 32% 22%, rgba(255, 253, 248, 0.95) 0%, rgba(255, 253, 248, 0) 60%),
+    radial-gradient(130% 110% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(120, 100, 70, 0.1) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.25 0 0 0 0 0.2 0 0 0 .05 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+
+/* Letters get a hair more weight and a soft dimensional shadow underneath. */
+.tobs-headline {
+  -webkit-text-stroke: 0.004em #c4070d;
+}
+
+/* The sphere as full stop: graphic signature object, not a 3D ornament. */
+.tobs-dot {
+  /* rendered sphere (public/images/ball.png); motion lives on the wrappers */
+  background: url("/images/ball.png") center / contain no-repeat;
+}
+
+/* Contact shadow + faint red floor reflection. Lives on the drop wrapper so it stays on the floor while the sphere leans toward the cursor. */
+.dot-shadow {
+  /* darker, longer floor shadow stretching to the lower right, like the reference */
+  position: absolute;
+  left: 66%;
+  bottom: -13%;
+  width: 210%;
+  height: 34%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, rgba(20, 6, 3, 0.7), rgba(20, 6, 3, 0)) 30% 42% / 44% 55% no-repeat,
+    radial-gradient(closest-side, rgba(30, 10, 5, 0.38), rgba(30, 10, 5, 0)) 45% 50% / 92% 100% no-repeat;
+  filter: blur(0.011em);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ---------- Motion layer ---------- */
+@keyframes tobs-rise {
+  from { transform: translateY(0.32em); clip-path: polygon(-10% 100%, 110% 100%, 110% 100%, -10% 100%); }
+  to { transform: none; clip-path: polygon(-10% -40%, 110% -40%, 110% 140%, -10% 140%); }
+}
+@keyframes tobs-fade { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+.rise { display: inline-block; animation: tobs-rise 1.15s cubic-bezier(0.19, 1, 0.22, 1) both; }
+/* hidden until MagneticDot drops it in; if the script never runs, it simply appears at rest */
+.dot-wait { animation: tobs-appear 0.4s ease-out 2.5s both; }
+@keyframes tobs-appear { from { opacity: 0; } to { opacity: 1; } }
+.fade-in { animation: tobs-fade 1s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+.tobs-cursor {
+  position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none;
+  width: 12px; height: 12px; border-radius: 9999px; background: #c4070d;
+  opacity: 0; mix-blend-mode: multiply;
+  transition: width 0.35s cubic-bezier(0.19, 1, 0.22, 1), height 0.35s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.2s;
+}
+.tobs-cursor.is-visible { opacity: 1; }
+.tobs-cursor.is-hover { width: 56px; height: 56px; opacity: 0.85; }
+html.has-cursor, html.has-cursor * { cursor: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .dot-wait, .fade-in { animation: none !important; }
+}
+
+/* ---------- Intro hero (components/hero) ---------- */
+/* scroll length of the zoom; HeroMotion reads it from the spacer */
+:root { --tob-d: 2000px; }
+@media (max-width: 767px) { :root { --tob-d: 1200px; } }
+
+.tob-hero {
+  position: relative; z-index: 20; overflow: hidden;
+  height: 100vh; height: 100svh;
+  background: var(--tob-warm-mid);
+  /* TOB + gap + copy block sit together, centred a little below the middle like the reference */
+  --tob-w: min(60vw, 112svh);
+  --tob-h: calc(var(--tob-w) * 106 / 274);
+  --tob-gap: clamp(16px, 2.4svh, 28px);
+  --tob-copy-h: calc(clamp(28px, 2.5vw, 46px) * 2.16 + clamp(15px, 1.2vw, 21px) * 1.5 + 20px);
+  --tob-top: max(96px, calc(54svh - (var(--tob-h) + var(--tob-gap) + var(--tob-copy-h)) / 2));
+}
+@media (max-width: 767px) {
+  .tob-hero { --tob-w: 70vw; --tob-gap: 32px; --tob-copy-h: 98px; --tob-top: calc(46svh - (var(--tob-h) + var(--tob-gap) + var(--tob-copy-h)) / 2); }
+}
+
+.tob-header { position: absolute; inset: 0 0 auto; z-index: 8; }
+.tob-mark-box { position: absolute; left: calc(50% - var(--tob-w) / 2); top: var(--tob-top); width: var(--tob-w); aspect-ratio: 274 / 106; }
+.tob-portal { z-index: 1; }
+.tob-mark-par { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.tob-copy { top: calc(var(--tob-top) + var(--tob-h) + var(--tob-gap)); z-index: 5; }
+.tob-scroll-line { transform-origin: top; animation: tob-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes tob-cue { 0% { transform: scaleY(0); } 45% { transform: scaleY(1); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* objects: position, size and rotation come from data/hero.ts via custom properties */
+.tob-obj { position: absolute; left: var(--x); top: var(--y); width: min(var(--w), var(--max, 9999px)); pointer-events: none; }
+.tob-obj[data-layer="back"] { z-index: 2; }
+.tob-obj[data-layer="mid"] { z-index: 4; }
+.tob-obj[data-layer="fore"] { z-index: 6; }
+.tob-obj-img { display: block; width: 100%; height: auto; transform: rotate(var(--rot)); user-select: none; }
+.tob-obj-missing {
+  display: flex; align-items: center; justify-content: center; padding: 8px; border-radius: 42%;
+  border: 1px dashed rgba(17, 17, 17, 0.3); background: rgba(196, 7, 13, 0.07);
+  font: 600 11px/1.2 var(--font-ui), sans-serif; color: rgba(17, 17, 17, 0.55); text-align: center;
+}
+@media (max-width: 767px) {
+  .tob-obj { left: var(--mx); top: var(--my); width: min(var(--mw), var(--max, 9999px)); }
+  .tob-obj-img { transform: rotate(var(--mrot)); }
+  .tob-obj:not([data-mobile]) { display: none; }
+}
+
+.tob-after { position: relative; z-index: 0; }
+/* the calm cream scene between hero and site, only used in motion mode */
+.tob-portal-scene { display: none; }
+html.tob-motion .tob-portal-scene {
+  display: block; position: absolute; inset: 0 0 auto; z-index: 10; height: 100vh; height: 100svh;
+  overflow: hidden; pointer-events: none; background: var(--tob-warm-light);
+}
+.tob-scene-obj { position: absolute; left: var(--x); top: var(--y); width: var(--w); opacity: 0.55; }
+.tob-scene-obj .tob-obj-img { transform: rotate(var(--rot)); }
+@media (max-width: 767px) { .tob-scene-obj { width: calc(var(--w) * 2.2); } }
+
+/* motion mode (html.tob-motion, set before paint unless reduced motion): the hero lies over the site
+   and both stay stuck for --tob-d of scroll; the spacer provides that scroll distance */
+html.tob-motion .tob-sticky { position: sticky; top: 0; }
+/* the cream comes from the portal plate here, so the counter is a real hole onto the site */
+html.tob-motion .tob-hero { position: absolute; inset: 0 0 auto; background: none; }
+html.tob-motion .tob-spacer { height: var(--tob-d); }
+/* the site behind must be at least a screen tall, or the page ends before the portal finishes */
+html.tob-motion .tob-after { min-height: 100vh; min-height: 100svh; background: var(--tobs-cream); }
+/* hidden until HeroMotion takes over; if its script never arrives, things simply appear */
+html.tob-motion .tob-intro:not(.is-ready) .tob-enter { opacity: 0; animation: tobs-appear 0.6s ease-out 2.5s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tob-scroll-line { animation: none; }
+}

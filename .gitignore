@@ -1,0 +1,9 @@
+.vercel
+node_modules
+.next
+out
+.env*
+*.tsbuildinfo
+.DS_Store
+# local hand-made backups; git history replaces them
+.backup
