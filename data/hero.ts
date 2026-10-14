@@ -40,46 +40,26 @@ const asset = (name: string, h: number) => ({ src: `/hero/${name}.webp`, src2x: 
 const CUP = asset("cup-cream", 735);
 const SPIRAL = asset("spiral-pink", 705);
 const PINK = asset("flower-pink", 650);
-const YELLOW = asset("flower-yellow", 787);
-const SUN = asset("sun-gold", 733);
 const SPHERE = asset("sphere-gold", 784);
 const CLOUD = asset("cloud-white", 503);
-const BLOB = asset("blob-blue", 593);
-const PETALS = { ...asset("petals-pink", 401), soft: true };
-const RED_BLUR = { src: "/hero/blur-red.webp", src2x: "/hero/blur-red@2x.webp", size: [1000, 416] as [number, number], soft: true };
+const BLOB = asset("blob-blue-premium", 571);
 
+// Approved composition: five supporting pieces and two gold accents, with space around TOB.
 export const heroObjects: HeroObject[] = [
-  // ---- back: small, behind the word ----
   { id: "cloud", ...CLOUD, alt: "", layer: "back",
-    desktop: { x: 4.5, y: 12.5, w: 11 }, mobile: null, drift: -40, portal: { x: 100, y: 50 } },
-  { id: "flower-yellow", ...YELLOW, alt: "", layer: "back",
-    desktop: { x: 38.8, y: 7, w: 12.5, rot: 10 }, mobile: { x: 52, y: 6, w: 19.2, rot: 10 }, drift: -30, portal: { x: 30, y: -90 } },
-  { id: "sphere-1", ...SPHERE, alt: "", layer: "back",
-    desktop: { x: 3.4, y: 29, w: 3.2 }, mobile: null, drift: -24, portal: { x: -40, y: -60 } },
-  { id: "sphere-2", ...SPHERE, alt: "", layer: "back",
-    desktop: { x: 17.3, y: 37, w: 1.7 }, mobile: null, drift: -30, portal: { x: 20, y: -60 } },
-  // ---- mid: touching and overlapping the word ----
+    desktop: { x: 2.9, y: 13.5, w: 13.7 }, mobile: { x: 2, y: 15, w: 22 }, drift: -40, portal: { x: -25, y: -10 } },
   { id: "cup", ...CUP, alt: "", layer: "mid",
-    desktop: { x: 17.2, y: 10.1, w: 9.4, rot: -6 }, mobile: { x: 5, y: 13, w: 18, rot: 14 }, drift: -70, portal: { x: -30, y: -80 } },
+    desktop: { x: 19.5, y: 10.1, w: 12.6, rot: -6 }, mobile: { x: 25, y: 12.5, w: 22, rot: -6 }, drift: -70, portal: { x: -60, y: -30 } },
   { id: "spiral", ...SPIRAL, alt: "", layer: "mid",
-    desktop: { x: 55.5, y: 5.9, w: 15, rot: -6 }, mobile: { x: 75, y: 12, w: 19 }, drift: -55, portal: { x: 40, y: -100 } },
+    desktop: { x: 56.5, y: 6.5, w: 17.7, rot: -6 }, mobile: { x: 66, y: 13, w: 28, rot: -6 }, drift: -55, portal: { x: 60, y: -40 } },
   { id: "flower-pink", ...PINK, alt: "", layer: "mid",
-    desktop: { x: 76.5, y: 21.2, w: 14.5, rot: 10 }, mobile: null, drift: -110, portal: { x: 90, y: -60 } },
-  { id: "flower-pink-left", ...PINK, alt: "", layer: "mid",
-    desktop: { x: 2, y: 39, w: 15, rot: -14 }, mobile: { x: -9, y: 64, w: 36, rot: -8 }, drift: 50, portal: { x: -80, y: 60 } },
-  { id: "sun", ...SUN, alt: "", layer: "mid",
-    desktop: { x: 90, y: 50, w: 9.5 }, mobile: null, drift: 60, portal: { x: 70 } },
-  { id: "sphere-3", ...SPHERE, alt: "", layer: "mid",
-    desktop: { x: 32.5, y: 57.5, w: 3.2 }, mobile: { x: 80, y: 61, w: 8 }, drift: 70, portal: { x: -40, y: 60 } },
-  { id: "sphere-4", ...SPHERE, alt: "", layer: "mid",
-    desktop: { x: 65.5, y: 64, w: 2.6 }, mobile: null, drift: 40, portal: { x: 60, y: 50 } },
-  // ---- fore: cropped by the frame, in front of the copy; z orders blob < red blur < petals ----
+    desktop: { x: 75.7, y: 22.7, w: 20.2, rot: 10 }, mobile: { x: 78, y: 32, w: 30, rot: 10 }, drift: -110, portal: { x: 80, y: -30 } },
+  { id: "sphere-1", ...SPHERE, alt: "", layer: "back",
+    desktop: { x: 17.2, y: 51.1, w: 3 }, mobile: { x: 9, y: 48, w: 5 }, drift: -24, portal: { x: -30, y: -35 } },
+  { id: "sphere-2", ...SPHERE, alt: "", layer: "back",
+    desktop: { x: 84.2, y: 58.2, w: 2.8 }, mobile: null, drift: -30, portal: { x: -20, y: 40 } },
   { id: "blob", ...BLOB, alt: "", layer: "fore", z: 6,
-    desktop: { x: 77, y: 72, w: 20.5, rot: -10 }, mobile: { x: 62, y: 76, w: 35 }, drift: 110, portal: { x: 120, scale: 1.15 } },
-  { id: "blur-red", ...RED_BLUR, alt: "", layer: "fore", z: 7,
-    desktop: { x: -9, y: 74, w: 30, rot: 6 }, mobile: { x: -16, y: 91, w: 55, rot: 6 }, drift: 150, portal: { x: -100, y: 80 } },
-  { id: "petals-bottom", ...PETALS, alt: "", layer: "fore", z: 8,
-    desktop: { x: 66, y: 89, w: 14, rot: 8 }, mobile: null, drift: 90, portal: { x: 80, y: 80 } },
+    desktop: { x: 77.6, y: 72.8, w: 25, rot: 0 }, mobile: { x: 74, y: 77, w: 39, rot: 0 }, drift: 110, portal: { x: 120, scale: 1.08 } },
 ];
 
 // The calm scene seen through the O before the site itself appears: same cream, a few faint objects,

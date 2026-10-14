@@ -66,8 +66,8 @@ export function TobLetter({ letter }: { letter: Letter }) {
         </linearGradient>
         {/* Alpha-derived normals follow every contour, including the O's changing counter. */}
         <filter id={id("bevel")} x="-8%" y="-12%" width="116%" height="128%" colorInterpolationFilters="sRGB">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="1" result="rounded" />
-          <feSpecularLighting in="rounded" surfaceScale="3" specularConstant="0.85" specularExponent="28" lightingColor="#FFF6ED" result="shine">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="1.3" result="rounded" />
+          <feSpecularLighting in="rounded" surfaceScale="4" specularConstant="1.1" specularExponent="28" lightingColor="#FFF6ED" result="shine">
             <fePointLight x="-70" y="-160" z="180" />
           </feSpecularLighting>
           <feComposite in="shine" in2="SourceAlpha" operator="in" />
@@ -77,6 +77,7 @@ export function TobLetter({ letter }: { letter: Letter }) {
         </filter>
       </defs>
       <g transform={`translate(${spacing} 0)`}>
+        <ellipse data-mark-shadow cx={letter === "t" ? 38 : letter === "o" ? 131 : 233} cy="105" rx={letter === "t" ? 34 : 46} ry="3" fill="#6B3020" opacity="0.2" filter={`url(#${id("soft")})`} />
         <path data-mark-shadow data-ring={ring} d={d} fillRule="evenodd" fill="#532015" opacity="0.2" filter={`url(#${id("soft")})`} transform="translate(2.5 7)" />
         {DEPTH.map((c, i) => {
           const step = DEPTH.length - i;
@@ -84,7 +85,7 @@ export function TobLetter({ letter }: { letter: Letter }) {
         })}
         <path data-ring={ring} d={d} fillRule="evenodd" fill={`url(#${id("face")})`} />
         <path data-mark-gloss data-ring={ring} d={d} fillRule="evenodd" fill={`url(#${id("sheen")})`} stroke={`url(#${id("edge")})`} strokeWidth="1.35" strokeLinejoin="round" />
-        <path data-mark-gloss data-ring={ring} d={d} fillRule="evenodd" fill="#fff" filter={`url(#${id("bevel")})`} opacity="0.58" />
+        <path data-mark-gloss data-ring={ring} d={d} fillRule="evenodd" fill="#fff" filter={`url(#${id("bevel")})`} opacity="0.75" />
       </g>
     </svg>
   );

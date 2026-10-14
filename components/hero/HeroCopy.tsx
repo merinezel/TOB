@@ -3,12 +3,12 @@ export function HeroCopy() {
   return (
     <div id="hakkimizda" data-hero-copy className="tob-copy absolute inset-x-0 z-20 px-5 text-center">
       <div data-enter className="tob-enter">
-        <p data-hero-slogan aria-hidden className="mx-auto max-w-[16ch] font-ui text-[26px] font-bold leading-[1.08] tracking-[-0.035em] text-ink sm:max-w-none sm:text-[clamp(28px,calc(2.5*var(--u)),46px)]">
+        <p data-hero-slogan aria-hidden className="mx-auto max-w-[16ch] font-ui text-[26px] font-bold leading-[1.08] tracking-[-0.035em] text-ink sm:max-w-none sm:text-[clamp(28px,calc(3.2*var(--u)),52px)]">
           Küçük işletmeler için
           <br />
           büyük marka fikirleri.
         </p>
-        <p data-hero-services className="mt-[20px] flex flex-wrap items-center justify-center gap-x-3 font-ui text-[15px] font-normal text-ink sm:gap-x-[0.9em] sm:text-[clamp(15px,calc(1.12*var(--u)),21px)]">
+        <p data-hero-services className="mt-[20px] flex flex-wrap items-center justify-center gap-x-3 font-ui text-[15px] font-normal text-ink sm:tracking-[0.1em] sm:gap-x-[0.9em] sm:text-[clamp(15px,calc(1.12*var(--u)),21px)]">
           {["Brand", "Web", "Social", "Marketing"].map((s, i) => (
             <span key={s} className="flex items-center gap-x-3 sm:gap-x-[0.9em]">
               {i > 0 && <span aria-hidden className="text-ink/40">·</span>}
