@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import { Archivo, Cormorant_Garamond, Inter } from "next/font/google";
+import "./fonts.css";
 import "./globals.css";
-
-// Poster grotesk: Archivo's width axis lets the black weight sit as narrow as the reference.
-const poster = Archivo({ subsets: ["latin", "latin-ext"], axes: ["wdth"], variable: "--font-poster", display: "swap" });
-const editorial = Cormorant_Garamond({ subsets: ["latin", "latin-ext"], weight: ["500", "600"], style: ["normal", "italic"], variable: "--font-editorial", display: "swap" });
-const ui = Inter({ subsets: ["latin", "latin-ext"], weight: ["400", "500", "600", "700", "800"], variable: "--font-ui", display: "swap" });
 
 const url = "https://wearetob.com";
 const description =
@@ -67,7 +62,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" suppressHydrationWarning className={`${poster.variable} ${ui.variable} ${editorial.variable}`}>
+    <html lang="tr" suppressHydrationWarning>
       <head>
         <link rel="preload" href="/images/ball.png" as="image" />
         {/* before first paint: switch the intro hero into its sticky zoom layout unless motion is reduced */}
