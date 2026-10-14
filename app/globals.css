@@ -10,9 +10,9 @@
   --tobs-grey: #D8D5CF;
   --tobs-dark-grey: #363636;
   /* intro hero: warm cream, lighter in the middle */
-  --tob-warm-light: #F9F0E4;
+  --tob-warm-light: #F4E9DC;
   --tob-warm-mid: #F4E9DC;
-  --tob-warm-edge: #EFE2D2;
+  --tob-warm-edge: #F4E9DC;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
@@ -110,15 +110,22 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   position: relative; z-index: 20; overflow: hidden;
   height: 100vh; height: 100svh;
   background: var(--tob-warm-mid);
-  /* Composition matched to the approved 1586 × 992 art direction. */
+  /* TOB + gap + copy block sit together on the middle of the screen */
+  /* previous word size/position (66vw) kept as the anchor the copy and the current top are measured from */
   --u: min(1vw, 1.6svh);
-  --tob-w: calc(61 * var(--u));
+  --tob-w0: calc(66 * var(--u));
+  --tob-h0: calc(var(--tob-w0) * 106 / 274);
+  --tob-gap0: clamp(40px, calc(2.4svh + 24px), 52px);
+  --tob-copy-h: calc(clamp(28px, calc(2.5 * var(--u)), 46px) * 2.16 + clamp(15px, calc(1.12 * var(--u)), 21px) * 1.5 + 20px);
+  --tob-top0: max(96px, calc(55svh - (var(--tob-h0) + var(--tob-gap0) + var(--tob-copy-h)) / 2));
+  /* word: 62.5vw, 3svh higher; the gap grows by the same amount so the copy stays exactly where it was */
+  --tob-w: calc(59.4 * var(--u));
   --tob-h: calc(var(--tob-w) * 106 / 274);
-  --tob-top: 28svh;
-  --tob-gap: 6svh;
+  --tob-top: calc(var(--tob-top0) + (var(--tob-h0) - var(--tob-h)) / 2 - 3svh);
+  --tob-gap: calc(var(--tob-gap0) + 3svh + (var(--tob-h0) - var(--tob-h)) / 2 - 10px);
 }
 @media (max-width: 767px) {
-  .tob-hero { --tob-w: 79vw; --tob-gap: 6svh; --tob-top: 34svh; }
+  .tob-hero { --tob-w: 70vw; --tob-gap: 32px; --tob-copy-h: 98px; --tob-top: calc(43svh - (var(--tob-h) + var(--tob-gap) + var(--tob-copy-h)) / 2); }
 }
 
 .tob-header { position: absolute; inset: 0 0 auto; z-index: 10; }
@@ -138,8 +145,8 @@ html.tob-motion .tob-brand-line {
 @media (max-width: 767px) { .tob-brand-text { font-size: 16px; } }
 .tob-mark-par { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
 /* parcel inside the O: O centre is at 47.8% / 50% of the wordmark box, counter ⌀ is 21% of its width */
-.tob-gift { position: absolute; left: 41%; top: 37%; width: 13.5%; height: auto; transform: rotate(-12deg); filter: drop-shadow(0 0.6vw 0.8vw rgba(90, 40, 10, 0.18)); }
-@media (max-width: 767px) { .tob-gift { left: 39.5%; top: 34%; width: 16.5%; } }
+.tob-gift { position: absolute; left: 42.1%; top: 40.3%; width: 11.5%; height: auto; transform: rotate(-12deg); filter: drop-shadow(0 0.6vw 0.8vw rgba(90, 40, 10, 0.18)); }
+@media (max-width: 767px) { .tob-gift { left: 38.5%; top: 34%; width: 19%; } }
 .tob-copy { top: calc(var(--tob-top) + var(--tob-h) + var(--tob-gap)); z-index: 5; }
 .tob-scroll-line { transform-origin: top; animation: tob-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
 @keyframes tob-cue { 0% { transform: scaleY(0); } 45% { transform: scaleY(1); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
@@ -155,7 +162,7 @@ html.tob-motion .tob-brand-line {
 /* corner pieces hang off the screen's own corner, so they stay in it at any aspect ratio */
 @media (min-width: 768px) {
   .tob-obj[data-obj="blur-red"] { left: -6vw; top: auto; bottom: -3vw; }
-  .tob-obj[data-obj="blob"] { left: auto; right: -2vw; top: auto; bottom: -3vw; }
+  .tob-obj[data-obj="blob"] { left: auto; right: -4.5vw; top: auto; bottom: -2.5vw; }
   .tob-obj[data-obj="petals-bottom"] { left: auto; right: 21vw; top: auto; bottom: -2.5vw; }
 }
 .tob-obj-img { display: block; width: 100%; height: auto; transform: rotate(var(--rot)); user-select: none; }
@@ -198,3 +205,19 @@ html.tob-motion .tob-intro:not(.is-ready) .tob-enter { opacity: 0; animation: to
 
 /* the scroll cue gives way on short windows rather than touching the services line */
 @media (max-height: 760px) { [data-hero-scroll] { display: none; } }
+
+/* Original approved artwork, sampled as independent SVG animation layers. */
+.reference-hero { position: relative; height: 100vh; height: 100svh; overflow: hidden; background: #F4E9DC; }
+html.tob-motion .reference-hero { position: absolute; inset: 0 0 auto; z-index: 20; }
+.reference-art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.reference-header { position: absolute; inset: 0 0 auto; z-index: 10; opacity: 0; }
+.reference-mobile-copy { display: none; }
+@media (max-width: 767px) {
+  .reference-art { width: 144vw; height: 90.07vw; left: -22vw; top: 12svh; }
+  .reference-original { clip-path: inset(8% 0 30% 0); }
+  .reference-desktop { display: none; }
+  .reference-header { opacity: 1; }
+  .reference-mobile-copy { display: block; }
+  .reference-mobile-copy .tob-copy { top: 53svh; }
+  .reference-blue { transform: translate(-190px, 430px); }
+}

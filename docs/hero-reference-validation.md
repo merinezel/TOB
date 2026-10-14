@@ -1,16 +1,11 @@
-# Approved hero composition
+# Original-render hero
 
-The full hero now follows the approved 1586 × 992 reference, rather than changing only the letters.
+The opening desktop scene uses the user-provided approved PNG directly, at its original 1586 × 992 aspect ratio. No regenerated letters, materials or object approximations are used. The image is copied unchanged to `public/hero/approved-hero.png`.
 
-- Seven supporting objects: cloud, cup, spiral, one pink flower, two gold spheres and the foreground blue sculpture.
-- Remove the yellow flower, left pink flower, sun, red blur, loose petals and extra gold accents.
-- Rebalance desktop positions, increase TOB scale, align its top at 28svh, and adjust slogan size and spacing.
-- Mobile uses a separate composition with a readable slogan and no horizontal overflow.
-- Preserve the O center, the staged scroll transition and the persistent title screen above the rest of the site.
-- Local build and lint pass with the existing unused `arrow` warning. At mobile scroll 1857px, ring opacity is 0, title opacity is 1 and site content begins below the title screen.
+SVG windows sample the same source for the T, O, B, objects, slogan, service line and navigation. A complete source layer preserves the opening frame; on scroll it hands over to the independently animated windows. This retains a raster artwork approach rather than introducing a 3D renderer.
 
-## Asset provenance
+The O counter and background opening are SVG masks; they expand together through four scale stages. The ring fades at 92–100%, the centered title remains, and normal scrolling exposes the existing page below.
 
-The blue sculpture was created with the built-in image generation tool from the approved screenshot. The source render is preserved separately; the project consumes `public/hero/blob-blue-premium.webp` and its `@2x` sibling. Existing object assets remain unchanged.
+Mobile uses a cropped art stage, a live menu and live readable copy. Desktop uses live transparent navigation hit targets aligned with the rendered navigation. Reduced-motion uses a static first screen and no long spacer.
 
-Prompt: Extract and faithfully recreate only the glossy cobalt-blue sculptural object in the reference's bottom-right corner on a transparent background. Preserve the smooth inflated double-wave form, two parallel flowing lobes, deep royal-blue lacquer and white studio highlights. Extend cropped edges naturally. No text, website, background, other objects or floor plane. The object is positioned and cropped by the hero's bottom-right corner in HTML.
+Validation: local production build and lint (one existing unused `arrow` warning); desktop and mobile portal end checks confirm ring opacity 0, title opacity 1 and no horizontal overflow.
