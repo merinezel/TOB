@@ -49,9 +49,9 @@ export default function HeroMotion() {
           const vw = hero.clientWidth, vh = hero.clientHeight;
           geo.ox = O.offsetLeft + MARK.originX * W;
           geo.oy = O.offsetTop + MARK.originY * H;
-          // scale at which the widened counter, still on the O's own centre, clears the farthest corner
-          const far = Math.hypot(Math.max(geo.ox, vw - geo.ox), Math.max(geo.oy, vh - geo.oy));
-          geo.end = (far / (MARK.outer * 0.9 * (W / MARK.width))) * 1.04;
+          // The O remains a visible portal on the destination screen, with room around its edge.
+          const radius = Math.min(vw * 0.42, geo.oy - 24, vh - geo.oy - 24);
+          geo.end = Math.max(1.5, radius / (MARK.outer * (W / MARK.width)));
           geo.s = Math.max(vw / 1440, 0.45);
         };
         measure();
@@ -117,7 +117,7 @@ export default function HeroMotion() {
         // 1 → 1.12 → 1.45 → 2.4 → fill, interpolated in log space: slow first, steadily quicker, never a jump
         const z = { p: 0 };
         const applyZoom = () => {
-          const k = [1, 1.12, 1.45, 2.4, Math.max(geo.end, 3)];
+          const k = [1, 1.12, 1.45, Math.max(1.45, geo.end * 0.8), geo.end];
           const i = Math.min(3, Math.floor(z.p));
           const f = z.p - i;
           scalePortal(k[i] * Math.pow(k[i + 1] / k[i], f));
@@ -164,8 +164,8 @@ export default function HeroMotion() {
           .to(z, { p: 3, duration: (zoom1 - zoom0) * 0.26, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.5)
           .to(z, { p: 4, duration: (zoom1 - zoom0) * 0.24, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.76)
           .fromTo(brandText, { autoAlpha: 0, scale: 0.96, y: 8 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.07, ease: "power2.out" }, reveal0)
-          // Keep the title screen after the O clears; release into normal document scrolling.
-          .set(hero, { autoAlpha: 0 }, 1);
+          // Hold the O and its title together; the whole screen then scrolls naturally.
+          .set(z, { p: 4, onUpdate: applyZoom }, 1);
 
         // layers dissolve front → mid → back, each with its own small, calm drift
         type Move = { g: 0 | 1 | 2; x: number; y: number; s?: number; r?: number; half?: boolean };
