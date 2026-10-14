@@ -131,7 +131,7 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .tob-header { position: absolute; inset: 0 0 auto; z-index: 10; }
 .tob-mark-box { position: absolute; left: calc(50% - var(--tob-w) / 2); top: var(--tob-top); width: var(--tob-w); aspect-ratio: 274 / 106; }
 .tob-portal { z-index: 1; }
-/* the screen the O opens onto: overlays the stationary site behind the hero, motion mode only */
+/* the screen the O opens onto: remains as the first screen above the site, motion mode only */
 .tob-brand-line { display: none; }
 html.tob-motion .tob-brand-line {
   display: block; position: absolute; inset: 0 0 auto; height: 100vh; height: 100svh;
@@ -195,7 +195,7 @@ html.tob-motion .tob-sticky { position: sticky; top: 0; }
 html.tob-motion .tob-hero { position: absolute; inset: 0 0 auto; background: none; }
 html.tob-motion .tob-spacer { height: var(--tob-d); }
 /* the site behind must be at least a screen tall, or the page ends before the portal finishes */
-html.tob-motion .tob-after { min-height: 100vh; min-height: 100svh; background: var(--tobs-cream); }
+html.tob-motion .tob-after { min-height: 100vh; min-height: 100svh; background: var(--tobs-cream); padding-top: 100vh; padding-top: 100svh; }
 /* hidden until HeroMotion takes over; if its script never arrives, things simply appear */
 html.tob-motion .tob-intro:not(.is-ready) .tob-enter { opacity: 0; animation: tobs-appear 0.6s ease-out 2.5s both; }
 

@@ -56,8 +56,8 @@ export default function TobHero({ children }: { children: ReactNode }) {
         </section>
 
         <div data-after className="tob-after">
-          {/* The title card overlays the site; it dissolves in place before sticky releases. */}
-          <div data-brand-line aria-hidden className="tob-brand-line">
+          {/* The O reveals this persistent title screen; the rest of the site follows below. */}
+          <div data-brand-line className="tob-brand-line">
             <span data-brand-text className="tob-brand-text">
               the other
               <br />

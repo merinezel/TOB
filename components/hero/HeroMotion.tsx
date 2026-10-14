@@ -5,8 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { heroObjects, layers } from "@/data/hero";
 import { MARK, PLATE_GAP, platePath, ringPath } from "./TobWordmark";
 
-// One normalized scroll timeline: hold → depth dissolve → isolated O → staged zoom → site.
-// CSS sticky keeps the destination still under the portal until the handoff is complete.
+// One normalized scroll timeline: hold → depth dissolve → isolated O → staged zoom → title screen.
+// The title remains as a real first screen; normal scrolling reveals the site below it.
 export default function HeroMotion() {
   useEffect(() => {
     const intro = document.querySelector<HTMLElement>("[data-tob-intro]");
@@ -164,8 +164,7 @@ export default function HeroMotion() {
           .to(z, { p: 3, duration: (zoom1 - zoom0) * 0.26, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.5)
           .to(z, { p: 4, duration: (zoom1 - zoom0) * 0.24, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.76)
           .fromTo(brandText, { autoAlpha: 0, scale: 0.96, y: 8 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.07, ease: "power2.out" }, reveal0)
-          // Reveal the stationary site beneath the title card, before sticky releases.
-          .to(one("[data-brand-line]"), { autoAlpha: 0, duration: 0.075, ease: "power1.inOut" }, 0.925)
+          // Keep the title screen after the O clears; release into normal document scrolling.
           .set(hero, { autoAlpha: 0 }, 1);
 
         // layers dissolve front → mid → back, each with its own small, calm drift
