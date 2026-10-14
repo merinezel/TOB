@@ -6,9 +6,11 @@ import type { HeroObject } from "@/data/hero";
 export default function FloatingObject({ o, available }: { o: HeroObject; available: boolean }) {
   const m = o.mobile;
   const style = {
+    "--xn": o.desktop.x, "--yn": o.desktop.y, "--wn": o.desktop.w,
     "--x": `${o.desktop.x}%`, "--y": `${o.desktop.y}%`, "--w": `${o.desktop.w}vw`, "--rot": `${o.desktop.rot ?? 0}deg`,
     "--mx": `${m?.x ?? 0}%`, "--my": `${m?.y ?? 0}%`, "--mw": `${m?.w ?? 0}vw`, "--mrot": `${m?.rot ?? 0}deg`,
     // no upscaling of sharp files: cap at the file's own width (a 2× file allows the same CSS size, crisper)
+    ...(o.z ? { zIndex: o.z } : {}),
     "--max": o.soft ? "9999px" : `${o.size[0]}px`,
   } as CSSProperties;
 

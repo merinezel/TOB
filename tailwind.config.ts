@@ -6,7 +6,7 @@ const config: Config = {
       colors: {
         tobs: "#C4070D",
         ink: "#111111",
-        cream: "#F5F1EA",
+        cream: "#F4E9DC",
         ivory: "#FAF9F6",
         grey: "#D8D5CF",
         "dark-grey": "#363636",

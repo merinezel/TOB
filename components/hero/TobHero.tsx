@@ -7,7 +7,6 @@ import { heroObjects } from "@/data/hero";
 import FloatingObject from "./FloatingObject";
 import { HeroCopy, ScrollIndicator } from "./HeroCopy";
 import HeroMotion from "./HeroMotion";
-import PortalScene from "./PortalScene";
 import { TobLetter, TobPortal } from "./TobWordmark";
 
 // Intro hero laid over the rest of the site. With motion on, the hero and the site share one sticky
@@ -39,6 +38,12 @@ export default function TobHero({ children }: { children: ReactNode }) {
                   <TobLetter letter={l} />
                 </span>
               ))}
+              {/* the TOB parcel resting in the O's counter; drawn in the wordmark's own box so it stays
+                  in the O at every screen size */}
+              <span data-gift aria-hidden className="tob-mark-box block">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/hero/gift.webp" srcSet="/hero/gift.webp 1x, /hero/gift@2x.webp 2x" alt="" width={800} height={670} decoding="async" draggable={false} className="tob-gift" />
+              </span>
             </h1>
           </div>
 
@@ -51,9 +56,16 @@ export default function TobHero({ children }: { children: ReactNode }) {
         </section>
 
         <div data-after className="tob-after">
+          {/* waits behind the hero; the O's opening reveals it (see HeroMotion) */}
+          <div data-brand-line aria-hidden className="tob-brand-line">
+            <span data-brand-text className="tob-brand-text">
+              the other
+              <br />
+              brands
+            </span>
+          </div>
           {children}
         </div>
-        <PortalScene />
       </div>
       <div data-tob-spacer aria-hidden className="tob-spacer" />
       <HeroMotion />

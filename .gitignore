@@ -7,3 +7,6 @@ out
 .DS_Store
 # local hand-made backups; git history replaces them
 .backup
+
+# local review screenshots
+screenshots

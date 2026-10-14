@@ -33,6 +33,8 @@ const PATHS = {
     "M211 57H245A11 11 0 0 1 245 79H211Z",
 };
 export type Letter = keyof typeof PATHS;
+// side wall colours, near to far: lit edge first, falling into shade
+const DEPTH = ["#B80E18", "#B00D16", "#A80C15", "#A00B14", "#980A12", "#900A11"];
 
 export function TobLetter({ letter }: { letter: Letter }) {
   const d = PATHS[letter];
@@ -43,27 +45,36 @@ export function TobLetter({ letter }: { letter: Letter }) {
       <defs>
         {/* body: lit from above, a touch deeper toward the base */}
         <linearGradient id={id("face")} x1="0" y1="-3" x2="0" y2="103" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#E3222C" />
-          <stop offset="0.14" stopColor="#D10F1A" />
-          <stop offset="0.7" stopColor="#C20B15" />
-          <stop offset="1" stopColor="#AE0911" />
+          <stop offset="0" stopColor="#D8141F" />
+          <stop offset="0.14" stopColor="#CE0F1A" />
+          <stop offset="0.7" stopColor="#C90D18" />
+          <stop offset="1" stopColor="#BC0B15" />
         </linearGradient>
         {/* thin top-edge highlight, the only "gloss" */}
         <linearGradient id={id("sheen")} x1="0" y1="-3" x2="0" y2="103" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.34" />
+          <stop offset="0" stopColor="#fff" stopOpacity="0.16" />
           <stop offset="0.06" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+        {/* light from the upper left: a little brighter on the left edge, a little deeper on the right */}
+        <linearGradient id={id("side")} x1="0" y1="0" x2="274" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#fff" stopOpacity="0.1" />
+          <stop offset="0.5" stopColor="#fff" stopOpacity="0" />
+          <stop offset="1" stopColor="#000" stopOpacity="0.1" />
         </linearGradient>
         <filter id={id("soft")} x="-15%" y="-25%" width="140%" height="170%">
           <feGaussianBlur stdDeviation="4.5" />
         </filter>
       </defs>
       {/* very soft cast shadow; faded out early in the scroll so the blur never re-renders at large zoom */}
-      <path data-mark-shadow data-ring={ring} d={d} fillRule="evenodd" fill="#5A0A0A" opacity="0.08" filter={`url(#${id("soft")})`} transform="translate(2.5 6)" />
-      {/* shallow extrusion: a darker copy nudged down-right reads as thickness, kept quiet; it fades out
-          before the big zoom so it never swells into a thick brown edge */}
-      <path data-mark-depth data-ring={ring} d={d} fillRule="evenodd" fill="#8A0812" opacity="0.42" transform="translate(0.8 1.4)" />
+      <path data-mark-shadow data-ring={ring} d={d} fillRule="evenodd" fill="#5A0A0A" opacity="0.16" filter={`url(#${id("soft")})`} transform="translate(5 10)" />
+      {/* extrusion: stacked copies stepped down-right, darkening with depth, so the letters have real
+          thickness; they fade out before the big zoom so they never swell into a thick brown edge */}
+      {DEPTH.map((c, i) => (
+        <path key={i} data-mark-depth data-ring={ring} d={d} fillRule="evenodd" fill={c} transform={`translate(${((i + 1) * 0.5).toFixed(2)} ${((i + 1) * 0.8).toFixed(2)})`} />
+      ))}
       <path data-ring={ring} d={d} fillRule="evenodd" fill={`url(#${id("face")})`} />
-      <path data-ring={ring} d={d} fillRule="evenodd" fill={`url(#${id("sheen")})`} />
+      <path data-mark-gloss data-ring={ring} d={d} fillRule="evenodd" fill={`url(#${id("sheen")})`} />
+      <path data-mark-gloss data-ring={ring} d={d} fillRule="evenodd" fill={`url(#${id("side")})`} />
     </svg>
   );
 }

@@ -12,7 +12,6 @@ export default function Header() {
           tob
           <span aria-hidden className="ml-[0.03em] inline-block aspect-square w-[0.19em] rounded-full bg-current align-baseline" />
         </span>
-        <span className="mt-1 block text-[13px] font-normal tracking-[-0.005em] text-ink/80 xl:mt-[0.1vw] xl:text-[clamp(12px,0.9vw,14px)]">the other brands</span>
       </a>
 
       <nav className="absolute left-[34.8vw] top-[2.55vw] hidden items-center gap-[3.65vw] xl:flex">

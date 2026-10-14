@@ -5,14 +5,14 @@
 :root {
   --tobs-red: #C4070D;
   --tobs-black: #111111;
-  --tobs-cream: #F5F1EA;
+  --tobs-cream: #F4E9DC;
   --tobs-white: #FAF9F6;
   --tobs-grey: #D8D5CF;
   --tobs-dark-grey: #363636;
   /* intro hero: warm cream, lighter in the middle */
-  --tob-warm-light: #FAF3EB;
-  --tob-warm-mid: #F4E8DC;
-  --tob-warm-edge: #EAD7C4;
+  --tob-warm-light: #F4E9DC;
+  --tob-warm-mid: #F4E9DC;
+  --tob-warm-edge: #F4E9DC;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
@@ -41,14 +41,8 @@ body { background: var(--tobs-cream); color: var(--tobs-black); -webkit-font-smo
     0 0 26px rgba(196, 7, 13, 0.2);
 }
 
-/* Cream stage: soft key light top-left, gentle vignette, faint paper grain. */
-.tobs-stage {
-  background-color: #f5f1ea;
-  background-image:
-    radial-gradient(110% 85% at 32% 22%, rgba(255, 253, 248, 0.95) 0%, rgba(255, 253, 248, 0) 60%),
-    radial-gradient(130% 110% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(120, 100, 70, 0.1) 100%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.25 0 0 0 0 0.2 0 0 0 .05 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
-}
+/* Cream stage: one flat colour for the whole site (same as the hero), no vignette or grain. */
+.tobs-stage { background-color: var(--tobs-cream); }
 
 /* Letters get a hair more weight and a soft dimensional shadow underneath. */
 .tobs-headline {
@@ -99,7 +93,7 @@ body { background: var(--tobs-cream); color: var(--tobs-black); -webkit-font-smo
   transition: width 0.35s cubic-bezier(0.19, 1, 0.22, 1), height 0.35s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.2s;
 }
 .tobs-cursor.is-visible { opacity: 1; }
-.tobs-cursor.is-hover { width: 56px; height: 56px; opacity: 0.85; }
+.tobs-cursor.is-hover { width: 56px; height: 56px; opacity: 0.7; }
 html.has-cursor, html.has-cursor * { cursor: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -108,37 +102,69 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 
 /* ---------- Intro hero (components/hero) ---------- */
 /* scroll length of the zoom; HeroMotion reads it from the spacer */
-:root { --tob-d: 2000px; }
-@media (max-width: 767px) { :root { --tob-d: 1200px; } }
+/* scroll length of the move through the O; HeroMotion reads it from the spacer */
+:root { --tob-d: 2900px; }
+@media (max-width: 767px) { :root { --tob-d: 1850px; } }
 
 .tob-hero {
   position: relative; z-index: 20; overflow: hidden;
   height: 100vh; height: 100svh;
   background: var(--tob-warm-mid);
-  /* TOB + gap + copy block sit together, centred a little below the middle like the reference */
-  --tob-w: min(60vw, 112svh);
+  /* TOB + gap + copy block sit together on the middle of the screen */
+  /* previous word size/position (66vw) kept as the anchor the copy and the current top are measured from */
+  --u: min(1vw, 1.6svh);
+  --tob-w0: calc(66 * var(--u));
+  --tob-h0: calc(var(--tob-w0) * 106 / 274);
+  --tob-gap0: clamp(40px, calc(2.4svh + 24px), 52px);
+  --tob-copy-h: calc(clamp(28px, calc(2.5 * var(--u)), 46px) * 2.16 + clamp(15px, calc(1.12 * var(--u)), 21px) * 1.5 + 20px);
+  --tob-top0: max(96px, calc(55svh - (var(--tob-h0) + var(--tob-gap0) + var(--tob-copy-h)) / 2));
+  /* word: 62.5vw, 3svh higher; the gap grows by the same amount so the copy stays exactly where it was */
+  --tob-w: calc(59.4 * var(--u));
   --tob-h: calc(var(--tob-w) * 106 / 274);
-  --tob-gap: clamp(16px, 2.4svh, 28px);
-  --tob-copy-h: calc(clamp(28px, 2.5vw, 46px) * 2.16 + clamp(15px, 1.2vw, 21px) * 1.5 + 20px);
-  --tob-top: max(96px, calc(54svh - (var(--tob-h) + var(--tob-gap) + var(--tob-copy-h)) / 2));
+  --tob-top: calc(var(--tob-top0) + (var(--tob-h0) - var(--tob-h)) / 2 - 3svh);
+  --tob-gap: calc(var(--tob-gap0) + 3svh + (var(--tob-h0) - var(--tob-h)) / 2 - 10px);
 }
 @media (max-width: 767px) {
-  .tob-hero { --tob-w: 70vw; --tob-gap: 32px; --tob-copy-h: 98px; --tob-top: calc(46svh - (var(--tob-h) + var(--tob-gap) + var(--tob-copy-h)) / 2); }
+  .tob-hero { --tob-w: 70vw; --tob-gap: 32px; --tob-copy-h: 98px; --tob-top: calc(43svh - (var(--tob-h) + var(--tob-gap) + var(--tob-copy-h)) / 2); }
 }
 
-.tob-header { position: absolute; inset: 0 0 auto; z-index: 8; }
+.tob-header { position: absolute; inset: 0 0 auto; z-index: 10; }
 .tob-mark-box { position: absolute; left: calc(50% - var(--tob-w) / 2); top: var(--tob-top); width: var(--tob-w); aspect-ratio: 274 / 106; }
 .tob-portal { z-index: 1; }
+/* the screen the O opens onto: sits behind the hero in the padding above the site, motion mode only */
+.tob-brand-line { display: none; }
+html.tob-motion .tob-brand-line {
+  display: block; position: absolute; inset: 0 0 auto; height: 100vh; height: 100svh;
+  background: var(--tob-warm-mid); pointer-events: none;
+}
+.tob-brand-text {
+  position: absolute; left: 50%; top: 50%; text-align: center; white-space: nowrap; opacity: 0;
+  font-family: var(--font-ui), sans-serif; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+  font-size: clamp(16px, calc(1.5 * var(--u)), 26px); color: var(--tobs-black);
+}
+@media (max-width: 767px) { .tob-brand-text { font-size: 16px; } }
 .tob-mark-par { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+/* parcel inside the O: O centre is at 47.8% / 50% of the wordmark box, counter ⌀ is 21% of its width */
+.tob-gift { position: absolute; left: 42.1%; top: 40.3%; width: 11.5%; height: auto; transform: rotate(-12deg); filter: drop-shadow(0 0.6vw 0.8vw rgba(90, 40, 10, 0.18)); }
+@media (max-width: 767px) { .tob-gift { left: 38.5%; top: 34%; width: 19%; } }
 .tob-copy { top: calc(var(--tob-top) + var(--tob-h) + var(--tob-gap)); z-index: 5; }
 .tob-scroll-line { transform-origin: top; animation: tob-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
 @keyframes tob-cue { 0% { transform: scaleY(0); } 45% { transform: scaleY(1); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
 /* objects: position, size and rotation come from data/hero.ts via custom properties */
-.tob-obj { position: absolute; left: var(--x); top: var(--y); width: min(var(--w), var(--max, 9999px)); pointer-events: none; }
+/* desktop: the layout is drawn for 1440×900 and scales with --u, so on a wide, short window it stays a
+   centred stage around the word instead of drifting apart */
+.tob-obj { position: absolute; left: calc(50% + (var(--xn) - 50) * var(--u)); top: calc(var(--yn) * 1%); width: min(calc(var(--wn) * var(--u)), var(--max, 9999px)); pointer-events: none; }
 .tob-obj[data-layer="back"] { z-index: 2; }
 .tob-obj[data-layer="mid"] { z-index: 4; }
 .tob-obj[data-layer="fore"] { z-index: 6; }
+.tob-obj[data-obj="blur-red"] .tob-obj-img { opacity: 0.7; }
+/* corner pieces hang off the screen's own corner, so they stay in it at any aspect ratio */
+@media (min-width: 768px) {
+  .tob-obj[data-obj="blur-red"] { left: -6vw; top: auto; bottom: -3vw; }
+  .tob-obj[data-obj="blob"] { left: auto; right: -4.5vw; top: auto; bottom: -2.5vw; }
+  .tob-obj[data-obj="petals-bottom"] { left: auto; right: 21vw; top: auto; bottom: -2.5vw; }
+}
 .tob-obj-img { display: block; width: 100%; height: auto; transform: rotate(var(--rot)); user-select: none; }
 .tob-obj-missing {
   display: flex; align-items: center; justify-content: center; padding: 8px; border-radius: 42%;
@@ -169,10 +195,13 @@ html.tob-motion .tob-sticky { position: sticky; top: 0; }
 html.tob-motion .tob-hero { position: absolute; inset: 0 0 auto; background: none; }
 html.tob-motion .tob-spacer { height: var(--tob-d); }
 /* the site behind must be at least a screen tall, or the page ends before the portal finishes */
-html.tob-motion .tob-after { min-height: 100vh; min-height: 100svh; background: var(--tobs-cream); }
+html.tob-motion .tob-after { min-height: 100vh; min-height: 100svh; background: var(--tobs-cream); padding-top: 100vh; padding-top: 100svh; }
 /* hidden until HeroMotion takes over; if its script never arrives, things simply appear */
 html.tob-motion .tob-intro:not(.is-ready) .tob-enter { opacity: 0; animation: tobs-appear 0.6s ease-out 2.5s both; }
 
 @media (prefers-reduced-motion: reduce) {
   .tob-scroll-line { animation: none; }
 }
+
+/* the scroll cue gives way on short windows rather than touching the services line */
+@media (max-height: 760px) { [data-hero-scroll] { display: none; } }

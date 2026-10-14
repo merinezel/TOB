@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import TobHero from "@/components/hero/TobHero";
 import { projects, services, site } from "@/data/site";
 
@@ -15,15 +14,13 @@ export default function Home() {
     <main>
       <TobHero>
       <section id="top" className="tobs-stage relative overflow-hidden bg-cream">
-        <Header />
-
         {/* SERVICES — four editorial columns, hairlines above and below. Hover swap kept. */}
-        <div id="hizmetler" className="mx-5 mt-12 border-y border-ink/20 xl:mx-[2.3vw] xl:mt-0 xl:h-[11.9vw]">
+        <div id="hizmetler" className="mx-5 mt-0 border-y border-ink/20 xl:mx-[2.3vw] xl:mt-0 xl:h-[11.9vw]">
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[361fr_372fr_378fr_358fr]">
             {services.map((s, i) => (
               <div
                 key={s.no}
-                className={`fade-in group relative block border-t border-ink/20 py-6 pr-12 first:border-t-0 sm:pl-5 sm:[&:nth-child(-n+2)]:border-t-0 sm:odd:border-l-0 sm:odd:pl-0 sm:even:border-l xl:!border-l-0 xl:!border-t-0 xl:mt-[1.7vw] xl:h-[8.9vw] xl:py-0 xl:pr-[1vw] xl:before:absolute xl:before:left-0 xl:before:top-0 xl:before:h-full xl:before:w-px xl:before:bg-ink/25 ${pads[i]}`}
+                className={`fade-in group relative block border-t border-ink/20 py-6 pr-12 first:border-t-0 sm:pl-5 sm:[&:nth-child(-n+2)]:border-t-0 sm:odd:border-l-0 sm:odd:pl-0 sm:even:border-l xl:!border-l-0 xl:!border-t-0 xl:mt-[1.1vw] xl:h-[8.9vw] xl:py-0 xl:pr-[1vw] xl:before:absolute xl:before:left-0 xl:before:top-0 xl:before:h-full xl:before:w-px xl:before:bg-ink/25 ${pads[i]}`}
                 style={{ animationDelay: `${1.05 + i * 0.12}s` }}
               >
                 <p className="flex items-center text-[13px] font-medium xl:-mt-[0.2vw] xl:text-[clamp(12px,0.85vw,15px)]">
