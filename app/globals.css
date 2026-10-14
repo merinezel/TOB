@@ -140,9 +140,10 @@ html.tob-motion .tob-brand-line {
 .tob-brand-text {
   position: absolute; left: 50%; top: 50%; text-align: center; white-space: nowrap; opacity: 0;
   font-family: var(--font-ui), sans-serif; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
-  font-size: clamp(16px, calc(1.5 * var(--u)), 26px); color: var(--tobs-black);
+  font-size: clamp(16px, min(1.5vw, 2.4svh), 26px); color: var(--tobs-black);
 }
-@media (max-width: 767px) { .tob-brand-text { font-size: 16px; } }
+/* The two-line title must fit inside the resting mobile counter, before zoom starts. */
+@media (max-width: 767px) { .tob-brand-text { font-size: clamp(10px, 2.7vw, 16px); } }
 .tob-mark-par { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
 /* parcel inside the O: O centre is at 47.8% / 50% of the wordmark box, counter ⌀ is 21% of its width */
 .tob-gift { position: absolute; left: 42.1%; top: 40.3%; width: 11.5%; height: auto; transform: rotate(-12deg); filter: drop-shadow(0 0.6vw 0.8vw rgba(90, 40, 10, 0.18)); }

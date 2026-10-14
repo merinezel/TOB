@@ -14,8 +14,7 @@ export const MARK = {
   counter: 29,
 };
 
-// The O's ring and the plate's hole take the inner radius as a parameter: during the portal the
-// counter widens faster than the zoom, so the ring thins out and the opening takes over the screen.
+// The ring and plate share fixed counter geometry; HeroMotion scales both around the O centre.
 export const ringPath = (rIn: number) =>
   `M131 -3A53 53 0 1 1 131 103A53 53 0 1 1 131 -3ZM131 ${50 - rIn}A${rIn} ${rIn} 0 1 0 131 ${50 + rIn}A${rIn} ${rIn} 0 1 0 131 ${50 - rIn}Z`;
 export const platePath = (r: number) =>
@@ -39,7 +38,7 @@ const DEPTH = ["#B80E18", "#B00D16", "#A80C15", "#A00B14", "#980A12", "#900A11"]
 export function TobLetter({ letter }: { letter: Letter }) {
   const d = PATHS[letter];
   const id = (n: string) => `tob-${n}-${letter}`;
-  const ring = letter === "o" ? "" : undefined; // HeroMotion rewrites these paths as the counter widens
+  const ring = letter === "o" ? "" : undefined; // tags the O geometry
   return (
     <svg viewBox={VIEWBOX} className="block h-full w-full overflow-visible" aria-hidden>
       <defs>
@@ -65,10 +64,10 @@ export function TobLetter({ letter }: { letter: Letter }) {
           <feGaussianBlur stdDeviation="4.5" />
         </filter>
       </defs>
-      {/* very soft cast shadow; faded out early in the scroll so the blur never re-renders at large zoom */}
+      {/* very soft cast shadow; slightly softened only during the final, large zoom */}
       <path data-mark-shadow data-ring={ring} d={d} fillRule="evenodd" fill="#5A0A0A" opacity="0.16" filter={`url(#${id("soft")})`} transform="translate(5 10)" />
       {/* extrusion: stacked copies stepped down-right, darkening with depth, so the letters have real
-          thickness; they fade out before the big zoom so they never swell into a thick brown edge */}
+          thickness; retained through the zoom to preserve the approved letter appearance */}
       {DEPTH.map((c, i) => (
         <path key={i} data-mark-depth data-ring={ring} d={d} fillRule="evenodd" fill={c} transform={`translate(${((i + 1) * 0.5).toFixed(2)} ${((i + 1) * 0.8).toFixed(2)})`} />
       ))}
