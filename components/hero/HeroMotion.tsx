@@ -164,8 +164,8 @@ export default function HeroMotion() {
           .to(z, { p: 3, duration: (zoom1 - zoom0) * 0.26, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.5)
           .to(z, { p: 4, duration: (zoom1 - zoom0) * 0.24, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.76)
           .fromTo(brandText, { autoAlpha: 0, scale: 0.96, y: 8 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.07, ease: "power2.out" }, reveal0)
-          // Hold the O and its title together; the whole screen then scrolls naturally.
-          .set(z, { p: 4, onUpdate: applyZoom }, 1);
+          // Dissolve only the ring; the title remains on its own screen above the site.
+          .to(O, { autoAlpha: 0, duration: 0.08, ease: "power1.inOut" }, 0.92);
 
         // layers dissolve front → mid → back, each with its own small, calm drift
         type Move = { g: 0 | 1 | 2; x: number; y: number; s?: number; r?: number; half?: boolean };
