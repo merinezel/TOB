@@ -5,17 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { heroObjects, layers } from "@/data/hero";
 import { MARK, PLATE_GAP, platePath, ringPath } from "./TobWordmark";
 
-// Drives the hero: the finished composition is the first screen (calm load-in), then one scroll timeline
-// takes the camera through the O onto a plain screen that says "the other brands"; the page scrolls on.
-// The hero is held in place by CSS sticky (see .tob-sticky), so ScrollTrigger only scrubs, it never pins.
-//   0–10%   hold: nothing moves but a little mouse parallax
-//   10–35%  scroll cue, then the services line, then the slogan, then the header leave
-//   25–52%  layers dissolve front → mid → back (blob, blur, petals; flowers, cup, spiral, sun, gift; cloud,
-//           yellow flower, spheres), each drifting a little and fading
-//   40–60%  T and B slide out; the O is left alone and breathes for a moment
-//   65–93%  the O zooms in stages while its opening widens faster than the zoom (the ring thins)
-//   78–95%  "the other brands" appears on the O's centre
-//   98–100% hero removed; the pin releases and the site scrolls up from below
+// One normalized scroll timeline: hold → depth dissolve → isolated O → staged zoom → site.
+// CSS sticky keeps the destination still under the portal until the handoff is complete.
 export default function HeroMotion() {
   useEffect(() => {
     const intro = document.querySelector<HTMLElement>("[data-tob-intro]");
@@ -29,7 +20,7 @@ export default function HeroMotion() {
     const after = one("[data-after]");
     const spacer = one("[data-tob-spacer]");
     const plate = one("[data-portal-zoom]");
-        const [T, O, B] = ["t", "o", "b"].map((l) => one(`[data-letter="${l}"]`));
+    const [T, O, B] = ["t", "o", "b"].map((l) => one(`[data-letter="${l}"]`));
     const portal = [plate, O]; // these two must always share one transform, or the hole and the ring drift apart
     const mm = gsap.matchMedia();
 
@@ -42,7 +33,7 @@ export default function HeroMotion() {
           root.classList.remove("tob-motion");
           intro.classList.add("is-ready");
           ScrollTrigger.refresh();
-          return;
+          return () => { intro.classList.remove("is-ready"); };
         }
         root.classList.add("tob-motion");
 
@@ -147,15 +138,15 @@ export default function HeroMotion() {
 
         // timing (fractions of the whole scroll); mobile compresses the middle so it stays shorter
         const M = mobile;
-        const tTB = M ? 0.34 : 0.4, dTB = M ? 0.18 : 0.2; // T and B leave
-        const zoom0 = M ? 0.55 : 0.65, zoom1 = 0.93; // O zoom
-        const reveal0 = M ? 0.7 : 0.78;
+        const tTB = M ? 0.37 : 0.4, dTB = 0.18; // T and B leave
+        const zoom0 = M ? 0.62 : 0.65, zoom1 = 0.9; // O zoom
+        const reveal0 = zoom0 + (zoom1 - zoom0) * 0.68;
         const sheen = q("[data-mark-gloss]");
 
         // 0–10%: hold. Then the copy leaves, line first, and the cue goes before either
-        tl.to(one("[data-hero-scroll]"), { autoAlpha: 0, duration: 0.06, ease: "power1.out" }, 0.1)
-          .to(copyEnter.children[1], { autoAlpha: 0, y: 8, duration: 0.09, ease: "power1.inOut" }, 0.12)
-          .to(copyEnter.children[0], { autoAlpha: 0, y: 12, duration: 0.1, ease: "power1.inOut" }, 0.21)
+        tl.to(one("[data-hero-scroll]"), { autoAlpha: 0, y: 6, duration: 0.06, ease: "power1.out" }, 0.1)
+          .to(one("[data-hero-services]"), { autoAlpha: 0, y: 8, duration: 0.09, ease: "power1.inOut" }, 0.12)
+          .to(one("[data-hero-slogan]"), { autoAlpha: 0, y: 12, duration: 0.1, ease: "power1.inOut" }, 0.21)
           .to(one("[data-hero-header]"), { autoAlpha: 0, y: -12, duration: 0.12, ease: "power1.inOut" }, 0.24)
           // the cast shadow goes early, the depth and the highlights thin out before the camera arrives
           .to(q("[data-mark-shadow]"), { autoAlpha: 0, duration: 0.2 }, 0.15)
@@ -167,13 +158,15 @@ export default function HeroMotion() {
           .set([T, B], { autoAlpha: 0 }, tTB + dTB)
           // the counter stops being filled once the O is alone
           .to(fillEl, { opacity: 0, duration: 0.05 }, tTB + dTB - 0.02)
-          // 65–93%: the zoom, one tween over the keyframes above
-          .to(z, { p: 4, duration: zoom1 - zoom0, ease: "power1.in", onUpdate: applyZoom }, zoom0)
-          // "the other brands" appears once the opening is wide enough to hold it
-          .fromTo(brandText, { autoAlpha: 0, scale: 0.96, y: 8 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.17, ease: "power2.out" }, reveal0)
-          // the ring barely dims; the hero hands over to the page's own scroll
-          .to(O, { opacity: 0.4, duration: 0.07 }, 0.92)
-          .to(hero, { autoAlpha: 0, duration: 0.02 }, 0.98);
+          // Separate scale stages preserve a measured approach before the opening fills the screen.
+          .to(z, { p: 1, duration: (zoom1 - zoom0) * 0.24, ease: "power1.inOut", onUpdate: applyZoom }, zoom0)
+          .to(z, { p: 2, duration: (zoom1 - zoom0) * 0.26, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.24)
+          .to(z, { p: 3, duration: (zoom1 - zoom0) * 0.26, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.5)
+          .to(z, { p: 4, duration: (zoom1 - zoom0) * 0.24, ease: "power1.inOut", onUpdate: applyZoom }, zoom0 + (zoom1 - zoom0) * 0.76)
+          .fromTo(brandText, { autoAlpha: 0, scale: 0.96, y: 8 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.07, ease: "power2.out" }, reveal0)
+          // Reveal the stationary site beneath the title card, before sticky releases.
+          .to(one("[data-brand-line]"), { autoAlpha: 0, duration: 0.075, ease: "power1.inOut" }, 0.925)
+          .set(hero, { autoAlpha: 0 }, 1);
 
         // layers dissolve front → mid → back, each with its own small, calm drift
         type Move = { g: 0 | 1 | 2; x: number; y: number; s?: number; r?: number; half?: boolean };
@@ -186,18 +179,18 @@ export default function HeroMotion() {
           cup: { g: 1, x: -60, y: -30, r: -3 },
           spiral: { g: 1, x: 60, y: -40, r: 4 },
           sun: { g: 1, x: 70, y: 20, s: 1.03 },
-          "sphere-3": { g: 1, x: -40, y: 30 },
-          "sphere-4": { g: 1, x: 45, y: 25 },
+          "sphere-3": { g: 2, x: -20, y: 15 },
+          "sphere-4": { g: 2, x: 22, y: 12 },
           cloud: { g: 2, x: -25, y: -10, half: true },
           "flower-yellow": { g: 2, x: 12, y: -30, r: 3 },
           "sphere-1": { g: 2, x: -30, y: -35 },
           "sphere-2": { g: 2, x: -20, y: 40 },
         };
-        const WIN = [0.25, 0.31, 0.38]; // when each layer starts, front first
+        const WIN = [0.25, 0.31, M ? 0.35 : 0.37]; // when each layer starts, front first
         const seen = [0, 0, 0];
         objs.forEach(({ o, el }) => {
           const m = moves[o.id] ?? { g: 1 as const, x: 0, y: 30 };
-          const t0 = WIN[m.g] + seen[m.g]++ * 0.012;
+          const t0 = WIN[m.g] + seen[m.g]++ * 0.008;
           const d = 0.15;
           tl.to(
             el,
@@ -219,6 +212,7 @@ export default function HeroMotion() {
 
         // ---- mouse parallax, desktop pointers only, and only while the hero is still the scene ----
         let onMove: ((e: PointerEvent) => void) | undefined;
+        let resetParallax: (() => void) | undefined;
         if (fine) {
           const movers = [
             ...objs.map(({ o, el }) => ({ amt: layers[o.layer].parallax, el: el.querySelector("[data-par]")! })),
@@ -234,12 +228,23 @@ export default function HeroMotion() {
             const ny = live ? (e.clientY / innerHeight - 0.5) * 2 : 0;
             movers.forEach((m) => { m.x(nx * m.amt); m.y(ny * m.amt); });
           };
+          resetParallax = () => {
+            if ((tl.scrollTrigger?.progress ?? 0) >= 0.12) {
+              movers.forEach((m) => { m.x(0); m.y(0); });
+            }
+          };
+          window.addEventListener("scroll", resetParallax, { passive: true });
           window.addEventListener("pointermove", onMove, { passive: true });
         }
 
         return () => {
           ScrollTrigger.removeEventListener("refreshInit", measure);
+          ScrollTrigger.removeEventListener("refreshInit", placeBrand);
+          ringEls.forEach((el) => el.setAttribute("d", ringPath(MARK.counter)));
+          plateEl.setAttribute("d", platePath(MARK.counter + PLATE_GAP));
+          fillEl.setAttribute("r", String(MARK.counter + PLATE_GAP + 0.5));
           if (onMove) window.removeEventListener("pointermove", onMove);
+          if (resetParallax) window.removeEventListener("scroll", resetParallax);
         };
       },
     );
@@ -267,7 +272,7 @@ export default function HeroMotion() {
       if (y == null) return;
       e.preventDefault();
       history.replaceState(null, "", a.getAttribute("href"));
-      window.scrollTo({ top: y, behavior: "smooth" });
+      window.scrollTo({ top: y, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
     };
     document.addEventListener("click", onClick);
     // arriving on /#work etc.: the browser's own jump uses the wrong offset, so redo it
