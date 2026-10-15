@@ -1,4 +1,5 @@
 import TobHero from "@/components/hero/TobHero";
+import BrandName from "@/components/hero/BrandName";
 import { projects, services, site } from "@/data/site";
 
 // Desktop (xl) values are the reference's 1536px grid expressed in vw.
@@ -14,6 +15,9 @@ export default function Home() {
     <main>
       <TobHero>
       <section id="top" className="tobs-stage relative overflow-hidden bg-cream">
+        <section id="slider" data-brand-stage className="brand-stage" aria-label="The Other Brands">
+          <h2 data-brand-destination className="brand-destination" aria-label="the other brands"><BrandName /></h2>
+        </section>
         {/* SERVICES — four editorial columns, hairlines above and below. Hover swap kept. */}
         <div id="hizmetler" className="mx-5 mt-0 border-y border-ink/20 xl:mx-[2.3vw] xl:mt-0 xl:h-[11.9vw]">
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[361fr_372fr_378fr_358fr]">
@@ -52,13 +56,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* THE OTHER BRANDS — heading left, three image panels right. */}
-        <div id="work" className="mx-5 mt-10 grid gap-8 pb-10 xl:mx-[2.3vw] xl:mt-[1.9vw] xl:grid-cols-[26.3vw_1fr] xl:gap-0 xl:pb-[2.1vw]">
-          <div className="fade-in relative xl:flex xl:flex-col xl:justify-center xl:pb-[3.75vw] xl:pr-[2vw]" style={{ animationDelay: "1.5s" }}>
-            {/* label sits on the images' top edge; the copy below is centred on the images */}
-            <p className="text-[12px] font-medium uppercase tracking-[0.1em] text-tobs xl:absolute xl:left-0 xl:top-0 xl:text-[clamp(12px,0.8vw,14px)]">
-              The Other Brands
-            </p>
+
+        {/* PROJECTS — Ethem Dede and the other brands follow the service row. */}
+        <div id="work" className="mx-5 mt-10 pb-10 xl:mx-[2.3vw] xl:mt-[1.9vw] xl:pb-[2.1vw]">
+          <div className="grid gap-8 xl:grid-cols-[26.3vw_1fr] xl:gap-0">
+          <div id="hakkimizda" className="fade-in relative xl:flex xl:flex-col xl:justify-center xl:pb-[3.75vw] xl:pr-[2vw]" style={{ animationDelay: "1.5s" }}>
             <h2 className="mt-4 text-[38px] font-medium leading-[1] tracking-[-0.03em] xl:ml-[2.7vw] xl:mt-0 xl:text-[clamp(30px,2.85vw,50px)]">
               Farklı <em className="font-editorial text-[1.08em] font-medium italic tracking-[-0.01em]">dünyalar,</em>
               <br />
@@ -110,6 +112,7 @@ export default function Home() {
                 </div>
               );
             })}
+          </div>
           </div>
         </div>
 

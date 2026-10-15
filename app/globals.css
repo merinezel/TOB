@@ -211,7 +211,7 @@ html.tob-motion .tob-intro:not(.is-ready) .tob-enter { opacity: 0; animation: to
 .reference-hero { position: relative; height: 100vh; height: 100svh; overflow: hidden; background: #F4E9DC; }
 html.tob-motion .reference-hero { position: absolute; inset: 0 0 auto; z-index: 20; background: none; }
 .reference-art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.reference-header { position: absolute; inset: 0 0 auto; z-index: 10; opacity: 0; }
+.reference-header { position: relative; z-index: 40; }
 .reference-mobile-copy { display: none; }
 html.tob-motion .reference-original { display: none; }
 @media (max-width: 767px) {
@@ -225,8 +225,39 @@ html.tob-motion .reference-original { display: none; }
 }
 
 /* The title paints above the portal artwork, at the measured O centre. */
-.reference-title { z-index: 2; font-size: clamp(14px, 2vw, 30px); color: #111; pointer-events: none; }
+.reference-title { z-index: 2; font-size: clamp(12px, 1.1vw, 18px); line-height: 0.95; letter-spacing: -0.045em; color: #111; pointer-events: none; }
 .reference-scroll-cue { position: absolute; z-index: 3; left: 50%; bottom: clamp(18px, 2.5svh, 32px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: clamp(12px, 0.85vw, 16px); line-height: 1.2; pointer-events: none; }
 html:not(.tob-motion) .reference-scroll-cue { display: none; }
 
 .reference-scroll-cue svg { width: clamp(18px, 0.9vw, 24px); height: clamp(18px, 0.9vw, 24px); }
+
+/* Live header: every visible label is an actual link and the pill has its own full height. */
+:root { --site-header-h: 84px; }
+html { scroll-padding-top: calc(var(--site-header-h) + 16px); }
+.site-header { position: fixed; inset: 0 0 auto; z-index: 50; height: var(--site-header-h); background: rgba(244,233,220,0.94); backdrop-filter: blur(8px); }
+.site-header-row { width: 100%; max-width: 1800px; height: 100%; margin: 0 auto; padding: 0 clamp(20px,3.9vw,72px); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 32px; }
+.site-logo { width: fit-content; font-size: clamp(36px,2.75vw,46px); line-height: 1; letter-spacing: -0.07em; }
+.site-desktop-nav { display: flex; gap: clamp(22px,3vw,54px); }
+.site-desktop-nav a { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 12px 0; }
+.site-desktop-nav a:hover { color: var(--tobs-red); }
+.site-header-actions { display: flex; justify-content: flex-end; align-items: center; gap: 20px; }
+.site-project-cta { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 42px; padding: 10px 22px; border: 1px solid var(--tobs-black); border-radius: 100px; font-size: 12px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+.site-project-cta:hover { background: var(--tobs-black); color: var(--tobs-cream); }
+.site-menu-toggle { display: none; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; min-height: 44px; }
+.site-mobile-menu { position: absolute; inset: var(--site-header-h) 0 auto; background: var(--tobs-cream); border-top: 1px solid #1112; padding: 20px; display: grid; gap: 4px; box-shadow: 0 12px 20px #1111; }
+.site-mobile-menu a { padding: 12px 4px; font-size: 14px; font-weight: 600; text-transform: uppercase; }
+@media (max-width: 1099px) { :root { --site-header-h: 72px; } .site-header-row { grid-template-columns: 1fr auto; gap: 16px; } .site-desktop-nav { display: none; } .site-menu-toggle { display: block; } .site-project-cta { display: none; } }
+/* The zoom opens directly onto services and the persistent project/slider heading. */
+html.tob-motion [data-reference-intro] .tob-after { padding-top: 0; }
+.brand-stage { height: 100vh; height: 100svh; display: grid; place-items: center; padding: 72px 20px; }
+.brand-destination { margin: 0; font-size: clamp(64px,min(20vw,26svh),420px); line-height: 0.95; font-weight: 700; letter-spacing: -0.045em; text-align: center; white-space: nowrap; }
+.brand-title-line { display: block; }
+@media (max-width: 767px) { .brand-destination { font-size: clamp(80px,26vw,160px); } .brand-title-other { display: block; } }
+html.tob-motion [data-brand-destination] { visibility: hidden; }
+.reference-original { clip-path: inset(9% 0 0 0); }
+
+html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
+
+/* A viewport-sized mask avoids oversized SVG surfaces during the portal zoom. */
+.reference-backdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: var(--tobs-cream); --portal-r: 0px; --portal-x: 50%; --portal-y: 50%; mask-image: radial-gradient(circle at var(--portal-x) var(--portal-y), transparent max(0px,calc(var(--portal-r) - 1px)), #000 var(--portal-r)); }
+.reference-art { z-index: 1; }

@@ -22,7 +22,7 @@ export const services = [
 
 // Real project imagery (supplied assets, imagery only). href: null = live URL not confirmed yet → card stays passive.
 export const projects = [
-  { name: "TMR Design", image: "/images/tmr-card.jpg", href: null, focus: "40% 50%" },
   { name: "Ethem Dede", image: "/images/ethem-dede-card.jpg", href: "https://ethemdede.club", focus: "50% 30%" },
+  { name: "TMR Design", image: "/images/tmr-card.jpg", href: null, focus: "40% 50%" },
   { name: "Wishball", image: "/images/wishball-card.jpg", href: "https://wishball.app", focus: "50% 85%" },
 ];

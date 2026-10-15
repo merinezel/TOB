@@ -1,7 +1,7 @@
 // The message under the wordmark, and the scroll cue pinned to the bottom of the hero.
 export function HeroCopy() {
   return (
-    <div id="hakkimizda" data-hero-copy className="tob-copy absolute inset-x-0 z-20 px-5 text-center">
+    <div data-hero-copy className="tob-copy absolute inset-x-0 z-20 px-5 text-center">
       <div data-enter className="tob-enter">
         <p data-hero-slogan aria-hidden className="mx-auto max-w-[16ch] font-ui text-[26px] font-bold leading-[1.08] tracking-[-0.035em] text-ink sm:max-w-none sm:text-[clamp(28px,calc(2.5*var(--u)),46px)]">
           Küçük işletmeler için
