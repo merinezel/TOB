@@ -225,7 +225,7 @@ html.tob-motion .reference-original { display: none; }
 }
 
 /* The title paints above the portal artwork, at the measured O centre. */
-.reference-title { z-index: 2; font-size: clamp(12px, 1.1vw, 18px); line-height: 0.95; letter-spacing: -0.045em; color: #111; pointer-events: none; }
+.reference-title { width: max-content; z-index: 2; font-size: clamp(12px, 1.1vw, 18px); line-height: 0.95; letter-spacing: -0.045em; color: #111; pointer-events: none; }
 .reference-scroll-cue { position: absolute; z-index: 3; left: 50%; bottom: clamp(18px, 2.5svh, 32px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: clamp(12px, 0.85vw, 16px); line-height: 1.2; pointer-events: none; }
 html:not(.tob-motion) .reference-scroll-cue { display: none; }
 

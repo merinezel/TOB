@@ -26,7 +26,7 @@ export default function ReferenceMotion() {
       intro.classList.add("is-ready");
       if (!motion) return;
       const O = el('[data-reference-letter="o"]');
-      const geo = { scale: 1, ox: 0, oy: 0, end: 12, blueX: 0, blueY: 0, titleX: 0, titleY: 0, titleSize: 72, startSize: 14 };
+      const geo = { scale: 1, ox: 0, oy: 0, end: 12, blueX: 0, blueY: 0, titleX: 0, titleY: 0, titleSize: 72, startSize: 14, portalScale: 1, textWidth: 1, textHeight: 1 };
       const measure = () => {
         // Use the SVG's mapping itself so the text, plate and O cannot drift on resize.
         const matrix = (art as unknown as SVGSVGElement).getScreenCTM();
@@ -48,23 +48,47 @@ export default function ReferenceMotion() {
         geo.titleY = destination.top + destination.height / 2 - h.top;
         geo.titleSize = parseFloat(getComputedStyle(destinationTitle).fontSize);
         geo.startSize = mobile ? 12 : Math.min(18, Math.max(12, innerWidth * 0.011));
+        // Measure untransformed type once; fitting each frame then needs no layout reads.
+        gsap.set(title, { fontSize: 100 });
+        geo.textWidth = title.offsetWidth / 100;
+        geo.textHeight = title.offsetHeight / 100;
         gsap.set(title, { left: geo.ox, top: geo.oy, fontSize: geo.startSize, xPercent: -50, yPercent: -50 });
       };
       measure();
       ScrollTrigger.addEventListener("refreshInit", measure);
       gsap.set(O, { svgOrigin: "769 475" });
       gsap.set(title, { autoAlpha: 0, scale: 0.97, y: 6 });
+      const pose = { fontSize: geo.startSize, left: geo.ox, top: geo.oy };
+      const fitTitle = () => {
+        // Keep the whole text rectangle inside the circular counter, with breathing room.
+        const revealY = Number(gsap.getProperty(title, "y")) || 0;
+        const radius = Math.max(1, 96 * geo.scale * geo.portalScale * 0.92 - 4 - Math.abs(revealY));
+        const diagonal = Math.hypot(geo.textWidth, geo.textHeight);
+        const fontSize = Math.min(pose.fontSize, radius * 2 / diagonal);
+        const halfDiagonal = diagonal * fontSize / 2;
+        const dx = pose.left - geo.ox;
+        const dy = pose.top - geo.oy;
+        const distance = Math.hypot(dx, dy);
+        const travel = Math.min(1, Math.max(0, radius - halfDiagonal) / (distance || 1));
+        gsap.set(title, {
+          fontSize,
+          left: geo.ox + dx * travel,
+          top: geo.oy + dy * travel,
+        });
+      };
+      fitTitle();
       const z = { p: 0 };
       const zoom = () => {
         const stages = [1, 1.35, 2.2, geo.end];
         const i = Math.min(2, Math.floor(z.p));
         const scale = stages[i] * Math.pow(stages[i + 1] / stages[i], z.p - i);
+        geo.portalScale = scale;
         gsap.set(O, { scale });
         backdrop.style.setProperty("--portal-r", `${96 * geo.scale * scale}px`);
       };
-      const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: {
+      const tl = gsap.timeline({ onUpdate: fitTitle, defaults: { ease: "none" }, scrollTrigger: {
         trigger: intro, start: "top top", end: () => `+=${spacer.offsetHeight}`,
-        scrub: 0.8, invalidateOnRefresh: true, onRefresh: zoom,
+        scrub: 0.8, invalidateOnRefresh: true, onRefresh: () => { zoom(); fitTitle(); },
       } });
       // The same artwork layers render from the first frame through the entire scroll.
       tl.to(el("[data-site-header]"), { backgroundColor: "rgba(244,233,220,0.94)", duration: 0.1 }, 0.4)
@@ -74,10 +98,10 @@ export default function ReferenceMotion() {
         .to(el('[data-reference-letter="t"]'), { x: () => -hero.clientWidth / geo.scale, duration: 0.18, ease: "power2.inOut" }, 0.4)
         .to(el('[data-reference-letter="b"]'), { x: () => hero.clientWidth / geo.scale, duration: 0.18, ease: "power2.inOut" }, 0.4)
         .to(title, { autoAlpha: 1, scale: 1, y: 0, duration: 0.12 }, 0.6)
-        .fromTo(title, { fontSize: () => geo.startSize },
+        .fromTo(pose, { fontSize: () => geo.startSize },
           { fontSize: () => geo.startSize * 2.2, duration: 0.13, ease: "power1.inOut" }, 0.72)
-        .to(title, { fontSize: () => geo.titleSize, duration: 0.15, ease: "power1.inOut" }, 0.85)
-        .fromTo(title, { left: () => geo.ox, top: () => geo.oy },
+        .to(pose, { fontSize: () => geo.titleSize, duration: 0.15, ease: "power1.inOut" }, 0.85)
+        .fromTo(pose, { left: () => geo.ox, top: () => geo.oy },
           { left: () => geo.titleX, top: () => geo.titleY, duration: mobile ? 0.18 : 0.22, ease: "power1.inOut" }, mobile ? 0.82 : 0.78)
         .to(z, { p: 1, duration: 0.1, onUpdate: zoom }, 0.65)
         .to(z, { p: 2, duration: 0.1, onUpdate: zoom }, 0.75)
