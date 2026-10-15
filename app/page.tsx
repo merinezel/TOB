@@ -17,6 +17,7 @@ export default function Home() {
         <section id="slider" data-brand-stage className="brand-stage" aria-label="The Other Brands">
           <h2 data-brand-destination className="brand-destination" aria-label="the other brands"><BrandName /></h2>
         </section>
+        <div className="content-bands">
         {/* SERVICES — four editorial columns, hairlines above and below. Hover swap kept. */}
         <div id="hizmetler" className="mx-5 mt-0 border-y border-ink/20 xl:mx-[2.3vw] xl:mt-0 xl:h-[11.9vw]">
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[361fr_372fr_378fr_358fr]">
@@ -113,6 +114,8 @@ export default function Home() {
             })}
           </div>
           </div>
+        </div>
+
         </div>
 
         {/* CONTACT — one clear call to action, opens mail */}
