@@ -284,7 +284,7 @@ html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
 .site-mobile-menu a[aria-current="location"]::after,
 .site-desktop-nav a:hover::after { transform: scaleX(1); }
 #hizmetler, #work, #iletisim { position: relative; }
-.is-navigation-target::after { content: ""; position: absolute; left: 0; top: -1px; width: 72px; height: 1px; background: var(--tobs-red); transform-origin: left; pointer-events: none; animation: section-arrival 750ms cubic-bezier(.22,1,.36,1) 750ms both; }
+.is-navigation-target::after { content: ""; position: absolute; left: 0; top: -1px; width: 72px; height: 2px; background: var(--tobs-red); transform-origin: left; pointer-events: none; animation: section-arrival 750ms cubic-bezier(.22,1,.36,1) 750ms both; }
 @keyframes section-arrival { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) { .is-navigation-target::after { animation: none; } .site-desktop-nav a::after, .site-mobile-menu a::after { transition: none; } }
 .site-language { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; }
@@ -311,12 +311,12 @@ html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }
   .content-bands #hakkimizda { padding-bottom: 0; }
 }
 
-.site-desktop-nav a[aria-current="location"]::after, .site-mobile-menu a[aria-current="location"]::after { background: var(--tobs-red); }
+.site-desktop-nav a[aria-current="location"]::after, .site-mobile-menu a[aria-current="location"]::after { background: var(--tobs-red); height: 2px; }
 
 /* The contact destination is the call-to-action itself. */
 #iletisim.is-navigation-target::after { display: none; }
 #iletisim > a { position: relative; }
-#iletisim.is-navigation-target > a::after { content: ""; position: absolute; left: calc(50% - 36px); bottom: -8px; width: 72px; height: 1px; background: var(--tobs-red); transform-origin: left; pointer-events: none; animation: section-arrival 750ms cubic-bezier(.22,1,.36,1) 750ms both; }
+#iletisim.is-navigation-target > a::after { content: ""; position: absolute; left: calc(50% - 36px); top: -10px; bottom: auto; width: 72px; height: 2px; background: var(--tobs-red); transform-origin: left; pointer-events: none; animation: section-arrival 750ms cubic-bezier(.22,1,.36,1) 750ms both; }
 @media (prefers-reduced-motion: reduce) { #iletisim.is-navigation-target > a::after { animation: none; } }
 
 /* Match the centered contact rule in the other two destination bands. */
