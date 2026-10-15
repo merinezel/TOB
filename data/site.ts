@@ -7,8 +7,8 @@ export const site = {
 };
 
 export const nav = [
-  { label: "Projeler", labelEn: "Projects", href: "#work" },
   { label: "Hizmetler", labelEn: "Services", href: "#hizmetler" },
+  { label: "Projeler", labelEn: "Projects", href: "#work" },
   { label: "İletişim", labelEn: "Contact", href: "#iletisim" },
 ];
 

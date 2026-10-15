@@ -240,7 +240,7 @@ html { scroll-padding-top: calc(var(--site-header-h) + 16px); }
 .site-logo { width: fit-content; font-size: clamp(36px,2.75vw,46px); line-height: 1; letter-spacing: -0.07em; }
 .site-desktop-nav { display: flex; gap: clamp(22px,3vw,54px); }
 .site-desktop-nav a { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 12px 0; }
-.site-desktop-nav a:hover { color: var(--tobs-red); }
+.site-desktop-nav a:hover { color: var(--tobs-black); }
 .site-header-actions { display: flex; justify-content: flex-end; align-items: center; gap: 20px; }
 .site-project-cta { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 42px; padding: 10px 22px; border: 1px solid var(--tobs-black); border-radius: 100px; font-size: 12px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
 .site-project-cta:hover { background: var(--tobs-black); color: var(--tobs-cream); }
@@ -277,14 +277,16 @@ html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
   .brand-stage { height: 100lvh; }
 }
 
-/* Connect a clicked menu label to the section reached below. */
-.site-desktop-nav a[aria-current="location"],
-.site-mobile-menu a[aria-current="location"] { color: var(--tobs-red); }
-#work h2, #work .project-name, #hizmetler h2 { transition: color 250ms ease; }
-.is-navigation-target h2, .is-navigation-target .project-name { color: var(--tobs-red); }
-/* Colour the destination itself without changing its layout or button. */
-.is-navigation-target { background-color: rgb(196 7 13 / 7%); }
-#iletisim.is-navigation-target > p:first-child { color: var(--tobs-red); }
+/* Quiet navigation feedback: an underline above and a short arrival rule below. */
+.site-desktop-nav a, .site-mobile-menu a { position: relative; width: fit-content; }
+.site-desktop-nav a::after, .site-mobile-menu a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 250ms ease; }
+.site-desktop-nav a[aria-current="location"]::after,
+.site-mobile-menu a[aria-current="location"]::after,
+.site-desktop-nav a:hover::after { transform: scaleX(1); }
+#hizmetler, #work, #iletisim { position: relative; }
+.is-navigation-target::after { content: ""; position: absolute; left: 0; top: 0; width: 72px; height: 1px; background: var(--tobs-black); transform-origin: left; pointer-events: none; animation: section-arrival 750ms cubic-bezier(.22,1,.36,1) 750ms both; }
+@keyframes section-arrival { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .is-navigation-target::after { animation: none; } .site-desktop-nav a::after, .site-mobile-menu a::after { transition: none; } }
 .site-language { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; }
 .site-language button { min-width: 32px; min-height: 40px; color: rgb(17 17 17 / 50%); }
 .site-language button[aria-pressed="true"] { color: var(--tobs-red); }
