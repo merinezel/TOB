@@ -64,13 +64,13 @@ export default function ReferenceMotion() {
       };
       const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: {
         trigger: intro, start: "top top", end: () => `+=${spacer.offsetHeight}`,
-        scrub: 1.1, invalidateOnRefresh: true, onRefresh: zoom,
+        scrub: 0.8, invalidateOnRefresh: true, onRefresh: zoom,
       } });
       // The same artwork layers render from the first frame through the entire scroll.
       tl.to(el("[data-site-header]"), { backgroundColor: "rgba(244,233,220,0.94)", duration: 0.1 }, 0.4)
-        .to(q("[data-reference-cue]"), { opacity: 0, y: 6, duration: 0.06 }, 0.12)
-        .to(q("[data-reference-services], [data-reference-mobile-copy] [data-hero-services]"), { opacity: 0, y: 6, duration: 0.08 }, 0.12)
-        .to(q("[data-reference-copy], [data-reference-mobile-copy] [data-hero-slogan]"), { opacity: 0, y: 8, duration: 0.1 }, 0.2)
+        .to(q("[data-reference-cue]"), { opacity: 0, y: 6, duration: 0.06 }, 0.06)
+        .to(q("[data-reference-services], [data-reference-mobile-copy] [data-hero-services]"), { opacity: 0, y: 6, duration: 0.08 }, 0.06)
+        .to(q("[data-reference-copy], [data-reference-mobile-copy] [data-hero-slogan]"), { opacity: 0, y: 8, duration: 0.1 }, 0.14)
         .to(el('[data-reference-letter="t"]'), { x: () => -hero.clientWidth / geo.scale, duration: 0.18, ease: "power2.inOut" }, 0.4)
         .to(el('[data-reference-letter="b"]'), { x: () => hero.clientWidth / geo.scale, duration: 0.18, ease: "power2.inOut" }, 0.4)
         .to(title, { autoAlpha: 1, scale: 1, y: 0, duration: 0.12 }, 0.6)
@@ -94,7 +94,7 @@ export default function ReferenceMotion() {
         const [x, y, width, height] = node.dataset.bounds!.split(",").map(Number);
         const box = { x, y, width, height };
         const depth = node.dataset.depth;
-        const start = depth === "front" ? 0.12 : depth === "back" ? 0.3 : 0.25;
+        const start = depth === "front" ? 0.06 : depth === "back" ? 0.24 : 0.19;
         const end = depth === "front" ? 0.38 : depth === "back" ? 0.48 : 0.44;
         const id = node.dataset.referencePiece;
         const dx = id === "gift" ? 0 : id === "cup" ? -80 : id === "spiral" ? 80 : box.x + box.width / 2 < 765 ? -100 : 100;

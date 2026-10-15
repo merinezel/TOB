@@ -261,3 +261,7 @@ html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
 /* A viewport-sized mask avoids oversized SVG surfaces during the portal zoom. */
 .reference-backdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: var(--tobs-cream); --portal-r: 0px; --portal-x: 50%; --portal-y: 50%; mask-image: radial-gradient(circle at var(--portal-x) var(--portal-y), transparent max(0px,calc(var(--portal-r) - 1px)), #000 var(--portal-r)); }
 .reference-art { z-index: 1; }
+
+/* A small downward pulse invites scrolling without moving the label. */
+@keyframes reference-scroll-pulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@media (prefers-reduced-motion: no-preference) { .reference-scroll-cue svg { animation: reference-scroll-pulse 1.6s ease-in-out infinite; } }
