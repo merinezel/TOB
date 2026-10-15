@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useLanguage } from "./LanguageProvider";
 import { nav } from "@/data/site";
 
 export default function Header() {
+  const { language, setLanguage } = useLanguage();
+  const en = language === "en";
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
   useEffect(() => {
@@ -15,18 +18,23 @@ export default function Header() {
   return (
     <header data-site-header className="site-header">
       <div className="site-header-row">
-        <a href="#top" onClick={() => select("#top")} aria-label="TOB ana sayfa" className="site-logo font-poster">tob<span aria-hidden>.</span></a>
-        <nav aria-label="Ana menü" className="site-desktop-nav">
-          {nav.map((n) => <a key={n.href} href={n.href} onClick={() => select(n.href)} aria-current={active === n.href ? "location" : undefined}>{n.label}</a>)}
+        <a href="#top" onClick={() => select("#top")} aria-label={en ? "TOB home" : "TOB ana sayfa"} className="site-logo font-poster">tob<span aria-hidden>.</span></a>
+        <nav aria-label={en ? "Main menu" : "Ana menü"} className="site-desktop-nav">
+          {nav.map((n) => <a key={n.href} href={n.href} onClick={() => select(n.href)} aria-current={active === n.href ? "location" : undefined}>{en ? n.labelEn : n.label}</a>)}
         </nav>
         <div className="site-header-actions">
-          <a data-project-cta href="#iletisim" onClick={() => select("#iletisim")} className="site-project-cta">Proje konuşalım <span aria-hidden>→</span></a>
-          <button type="button" className="site-menu-toggle" aria-expanded={open} aria-controls="site-mobile-menu" onClick={() => setOpen(!open)}>{open ? "Kapat" : "Menü"}</button>
+          <div className="site-language" role="group" aria-label={en ? "Language" : "Dil"}>
+            <button type="button" lang="tr" aria-label="Türkçe" aria-pressed={!en} onClick={() => setLanguage("tr")}>TR</button>
+            <span aria-hidden>/</span>
+            <button type="button" lang="en" aria-label="English" aria-pressed={en} onClick={() => setLanguage("en")}>EN</button>
+          </div>
+          <a data-project-cta href="#iletisim" onClick={() => select("#iletisim")} className="site-project-cta">{en ? "Let’s talk" : "Proje konuşalım"} <span aria-hidden>→</span></a>
+          <button type="button" className="site-menu-toggle" aria-expanded={open} aria-controls="site-mobile-menu" onClick={() => setOpen(!open)}>{open ? (en ? "Close" : "Kapat") : (en ? "Menu" : "Menü")}</button>
         </div>
       </div>
-      {open && <nav id="site-mobile-menu" aria-label="Mobil menü" className="site-mobile-menu">
-        {nav.map((n) => <a key={n.href} href={n.href} onClick={() => select(n.href)} aria-current={active === n.href ? "location" : undefined}>{n.label}</a>)}
-        <a href="#iletisim" onClick={() => select("#iletisim")}>Proje konuşalım →</a>
+      {open && <nav id="site-mobile-menu" aria-label={en ? "Mobile menu" : "Mobil menü"} className="site-mobile-menu">
+        {nav.map((n) => <a key={n.href} href={n.href} onClick={() => select(n.href)} aria-current={active === n.href ? "location" : undefined}>{en ? n.labelEn : n.label}</a>)}
+        <a href="#iletisim" onClick={() => select("#iletisim")}>{en ? "Let’s talk" : "Proje konuşalım"} →</a>
       </nav>}
     </header>
   );

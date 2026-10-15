@@ -7,10 +7,9 @@ export const site = {
 };
 
 export const nav = [
-  { label: "Work", href: "#work" },
-  { label: "Hizmetler", href: "#hizmetler" },
-  { label: "Hakkımızda", href: "#hakkimizda" },
-  { label: "İletişim", href: "#iletisim" },
+  { label: "Projeler", labelEn: "Projects", href: "#work" },
+  { label: "Hizmetler", labelEn: "Services", href: "#hizmetler" },
+  { label: "İletişim", labelEn: "Contact", href: "#iletisim" },
 ];
 
 export const services = [
@@ -25,4 +24,11 @@ export const projects = [
   { name: "Ethem Dede", image: "/images/ethem-dede-card.jpg", href: "https://ethemdede.club", focus: "50% 30%" },
   { name: "TMR Design", image: "/images/tmr-card.jpg", href: null, focus: "40% 50%" },
   { name: "Wishball", image: "/images/wishball-card.jpg", href: "https://wishball.app", focus: "50% 85%" },
+];
+
+export const servicesEn = [
+  { no: "01", title: "Brand", text: "Brand strategy, positioning,|visual identity and brand voice." },
+  { no: "02", title: "Web", text: "Modern, mobile-friendly|websites." },
+  { no: "03", title: "Social", text: "Social media strategy, content|planning and visual production." },
+  { no: "04", title: "Marketing", text: "Digital marketing, SEO,|advertising management and|growth strategies." },
 ];

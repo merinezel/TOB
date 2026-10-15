@@ -1,3 +1,4 @@
+import { LanguageProvider } from "@/components/LanguageProvider";
 import type { Metadata } from "next";
 import "./fonts.css";
 import "./globals.css";
@@ -74,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-ui">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

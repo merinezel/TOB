@@ -1,3 +1,5 @@
+"use client";
+import { useLanguage } from "@/components/LanguageProvider";
 import type { ReactNode } from "react";
 import { preload } from "react-dom";
 import Header from "@/components/Header";
@@ -23,12 +25,13 @@ const letters = {
 };
 
 export default function ReferenceHero({ children }: { children: ReactNode }) {
+  const en = useLanguage().language === "en";
   [SOURCE, "/hero/letter-b-glossy-v2.png", "/hero/gift-clean-v2.png", "/hero/flower-reference-v2.png"].forEach((src) => preload(src, { as: "image", fetchPriority: "high" }));
   return <div data-reference-intro className="tob-intro">
     <div data-reference-header className="reference-header"><Header /></div>
     <div className="tob-sticky">
       <section data-reference-hero className="reference-hero" aria-label="We Are TOB">
-        <h1 className="sr-only">We Are TOB. Küçük işletmeler için büyük marka fikirleri.</h1>
+        <h1 className="sr-only">{en ? "We Are TOB. Big brand ideas for small businesses." : "We Are TOB. Küçük işletmeler için büyük marka fikirleri."}</h1>
         <div data-reference-backdrop className="reference-backdrop" aria-hidden />
         <svg data-reference-art className="reference-art" viewBox="0 0 1586 992" preserveAspectRatio="xMidYMid meet" aria-hidden>
           <defs>

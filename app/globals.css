@@ -282,4 +282,20 @@ html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
 .site-mobile-menu a[aria-current="location"] { color: var(--tobs-red); }
 #work h2, #work .project-name, #hizmetler h2 { transition: color 250ms ease; }
 .is-navigation-target h2, .is-navigation-target .project-name { color: var(--tobs-red); }
-#iletisim.is-navigation-target a[href^="mailto:"] { box-shadow: 0 0 0 6px rgb(196 7 13 / 14%); }
+/* Colour the destination itself without changing its layout or button. */
+.is-navigation-target { background-color: rgb(196 7 13 / 7%); }
+#iletisim.is-navigation-target > p:first-child { color: var(--tobs-red); }
+.site-language { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; }
+.site-language button { min-width: 32px; min-height: 40px; color: rgb(17 17 17 / 50%); }
+.site-language button[aria-pressed="true"] { color: var(--tobs-red); }
+.site-language button:hover { color: var(--tobs-black); }
+/* Keep the approved Turkish artwork; use live translated text for English. */
+html[lang="en"] .reference-desktop { display: none; }
+html[lang="en"] .reference-mobile-copy { display: block; }
+@media (min-width: 768px) {
+  html[lang="en"] .reference-mobile-copy .tob-copy { top: calc(50% + min(20vw, 21svh)); }
+  html[lang="en"] .reference-mobile-copy [data-hero-slogan] { font-size: clamp(28px,3vw,72px); }
+  html[lang="en"] .reference-mobile-copy [data-hero-services] { font-size: clamp(14px,1.1vw,28px); }
+}
+
+html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }

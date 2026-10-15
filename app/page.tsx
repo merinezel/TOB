@@ -1,16 +1,15 @@
+"use client";
+import { useLanguage } from "@/components/LanguageProvider";
 import TobHero from "@/components/hero/TobHero";
 import BrandName from "@/components/hero/BrandName";
-import { projects, services, site } from "@/data/site";
+import { projects, services, servicesEn, site } from "@/data/site";
 
 // Desktop (xl) values are the reference's 1536px grid expressed in vw.
 const pads = ["xl:!pl-[2.34vw]", "xl:!pl-[3.9vw]", "xl:!pl-[3.78vw]", "xl:!pl-[3.9vw]"];
-const arrow = (cls: string) => (
-  <svg aria-hidden viewBox="0 0 32 12" fill="none" stroke="currentColor" strokeWidth="1.3" className={cls}>
-    <path d="M0 6h30M25 1l5 5-5 5" />
-  </svg>
-);
 
 export default function Home() {
+  const en = useLanguage().language === "en";
+  const displayedServices = en ? servicesEn : services;
   return (
     <main>
       <TobHero>
@@ -21,7 +20,7 @@ export default function Home() {
         {/* SERVICES — four editorial columns, hairlines above and below. Hover swap kept. */}
         <div id="hizmetler" className="mx-5 mt-0 border-y border-ink/20 xl:mx-[2.3vw] xl:mt-0 xl:h-[11.9vw]">
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[361fr_372fr_378fr_358fr]">
-            {services.map((s, i) => (
+            {displayedServices.map((s, i) => (
               <div
                 key={s.no}
                 className={`fade-in group relative block border-t border-ink/20 py-6 pr-12 first:border-t-0 sm:pl-5 sm:[&:nth-child(-n+2)]:border-t-0 sm:odd:border-l-0 sm:odd:pl-0 sm:even:border-l xl:!border-l-0 xl:!border-t-0 xl:mt-[1.1vw] xl:h-[8.9vw] xl:py-0 xl:pr-[1vw] xl:before:absolute xl:before:left-0 xl:before:top-0 xl:before:h-full xl:before:w-px xl:before:bg-ink/25 ${pads[i]}`}
@@ -62,12 +61,12 @@ export default function Home() {
           <div className="grid gap-8 xl:grid-cols-[26.3vw_1fr] xl:gap-0">
           <div id="hakkimizda" className="fade-in relative xl:flex xl:flex-col xl:justify-center xl:pb-[3.75vw] xl:pr-[2vw]" style={{ animationDelay: "1.5s" }}>
             <h2 className="mt-4 text-[38px] font-medium leading-[1] tracking-[-0.03em] xl:ml-[2.7vw] xl:mt-0 xl:text-[clamp(30px,2.85vw,50px)]">
-              Farklı <em className="font-editorial text-[1.08em] font-medium italic tracking-[-0.01em]">dünyalar,</em>
+              {en ? "Different " : "Farklı "}<em className="font-editorial text-[1.08em] font-medium italic tracking-[-0.01em]">{en ? "worlds," : "dünyalar,"}</em>
               <br />
-              aynı yaklaşım.
+              {en ? "one approach." : "aynı yaklaşım."}
             </h2>
             <p className="mt-3 max-w-[340px] text-[15px] leading-[1.4] text-ink/85 xl:ml-[2.7vw] xl:mt-[0.5vw] xl:text-[clamp(14px,1.04vw,18px)]">
-              Farklı sektörlerdeki markalarımızla,<br className="hidden xl:block" /> aynı yaratıcı bakış açısını paylaşıyoruz.
+              {en ? "We share the same creative perspective" : "Farklı sektörlerdeki markalarımızla,"}<br className="hidden xl:block" /> {en ? "with brands across different industries." : "aynı yaratıcı bakış açısını paylaşıyoruz."}
             </p>
           </div>
 
@@ -107,7 +106,7 @@ export default function Home() {
                   {inner}
                 </a>
               ) : (
-                <div key={p.name} className={cls} style={style} aria-label={`${p.name} — site yakında`}>
+                <div key={p.name} className={cls} style={style} aria-label={`${p.name} — ${en ? "website coming soon" : "site yakında"}`}>
                   {inner}
                 </div>
               );
@@ -121,12 +120,12 @@ export default function Home() {
           id="iletisim"
           className="mx-5 flex flex-col items-center gap-5 border-t border-ink/20 py-8 text-center sm:flex-row sm:text-left sm:items-center sm:justify-between xl:mx-[2.3vw] xl:py-[1.6vw]"
         >
-          <p className="text-[13px] text-ink/60 xl:text-[clamp(12px,0.85vw,15px)]">KOBİ&apos;ler ve küçük işletmeler için marka &amp; dijital ajans</p>
+          <p className="text-[13px] text-ink/60 xl:text-[clamp(12px,0.85vw,15px)]">{en ? "Brand & digital agency for small businesses" : "KOBİ’ler ve küçük işletmeler için marka & dijital ajans"}</p>
           <a
-            href={`mailto:${site.email}?subject=${encodeURIComponent("Markamızı büyütelim")}`}
+            href={`mailto:${site.email}?subject=${encodeURIComponent(en ? "Let’s grow our brand" : "Markamızı büyütelim")}`}
             className="group inline-flex items-center justify-center gap-3 rounded-full bg-tobs px-7 py-4 text-[13px] font-semibold uppercase tracking-[0.06em] text-cream transition hover:bg-ink xl:px-[2vw] xl:py-[0.95vw] xl:text-[clamp(12px,0.85vw,15px)]"
           >
-            Markanızı büyütelim
+            {en ? "Let’s grow your brand" : "Markanızı büyütelim"}
             <svg aria-hidden viewBox="0 0 32 12" fill="none" stroke="currentColor" strokeWidth="1.4" className="w-6 transition-transform duration-500 group-hover:translate-x-1">
               <path d="M0 6h30M25 1l5 5-5 5" />
             </svg>
