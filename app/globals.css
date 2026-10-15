@@ -215,12 +215,12 @@ html.tob-motion .reference-hero { position: absolute; inset: 0 0 auto; z-index: 
 .reference-mobile-copy { display: none; }
 html.tob-motion .reference-original { display: none; }
 @media (max-width: 767px) {
-  .reference-art { width: 144vw; height: 90.07vw; left: -22vw; top: 12svh; }
+  .reference-art { width: 100vw; height: 62.55vw; left: 0; top: clamp(96px, 14svh, 130px); }
   .reference-original { clip-path: inset(8% 0 30% 0); }
   .reference-desktop { display: none; }
   .reference-header { opacity: 1; }
   .reference-mobile-copy { display: block; }
-  .reference-mobile-copy .tob-copy { top: 53svh; }
+  .reference-mobile-copy .tob-copy { top: calc(clamp(96px, 14svh, 130px) + 49vw); }
   .reference-blue { transform: translate(-190px, 650px); }
 }
 
@@ -265,3 +265,7 @@ html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
 /* A small downward pulse invites scrolling without moving the label. */
 @keyframes reference-scroll-pulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 @media (prefers-reduced-motion: no-preference) { .reference-scroll-cue svg { animation: reference-scroll-pulse 1.6s ease-in-out infinite; } }
+
+@media (max-width: 767px) {
+  .reference-scroll-cue { top: calc(clamp(96px, 14svh, 130px) + 80vw); bottom: auto; }
+}

@@ -33,7 +33,7 @@ export default function ReferenceMotion() {
         if (!matrix) return;
         const h = hero.getBoundingClientRect();
         geo.scale = matrix.a;
-        geo.blueX = mobile ? -190 : (hero.clientWidth - (1586 * matrix.a + matrix.e - h.left)) / matrix.a;
+        geo.blueX = (hero.clientWidth - (1586 * matrix.a + matrix.e - h.left)) / matrix.a;
         geo.blueY = (hero.clientHeight - (992 * matrix.d + matrix.f - h.top)) / matrix.d + 2;
         gsap.set(el(".reference-blue"), { x: geo.blueX, y: geo.blueY });
         geo.ox = 769 * matrix.a + matrix.e - h.left;
