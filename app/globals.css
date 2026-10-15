@@ -215,12 +215,13 @@ html.tob-motion .reference-hero { position: absolute; inset: 0 0 auto; z-index: 
 .reference-mobile-copy { display: none; }
 html.tob-motion .reference-original { display: none; }
 @media (max-width: 767px) {
-  .reference-art { width: 100vw; height: 62.55vw; left: 0; top: clamp(96px, 14svh, 130px); }
+  .reference-hero { --reference-mobile-top: max(96px, calc(50svh - 44vw + 18px)); }
+  .reference-art { width: 100vw; height: 62.55vw; left: 0; top: var(--reference-mobile-top); }
   .reference-original { clip-path: inset(8% 0 30% 0); }
   .reference-desktop { display: none; }
   .reference-header { opacity: 1; }
   .reference-mobile-copy { display: block; }
-  .reference-mobile-copy .tob-copy { top: calc(clamp(96px, 14svh, 130px) + 49vw); }
+  .reference-mobile-copy .tob-copy { top: calc(var(--reference-mobile-top) + 49vw); }
   .reference-blue { transform: translate(-190px, 650px); }
 }
 
@@ -267,7 +268,7 @@ html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
 @media (prefers-reduced-motion: no-preference) { .reference-scroll-cue svg { animation: reference-scroll-pulse 1.6s ease-in-out infinite; } }
 
 @media (max-width: 767px) {
-  .reference-scroll-cue { top: calc(clamp(96px, 14svh, 130px) + 80vw); bottom: auto; }
+  .reference-scroll-cue { top: calc(var(--reference-mobile-top) + 80vw); bottom: auto; }
 }
 
 /* Keep the portal covered when a phone's browser bars collapse while scrolling. */
