@@ -269,3 +269,9 @@ html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
 @media (max-width: 767px) {
   .reference-scroll-cue { top: calc(clamp(96px, 14svh, 130px) + 80vw); bottom: auto; }
 }
+
+/* Keep the portal covered when a phone's browser bars collapse while scrolling. */
+@media (max-width: 767px) {
+  html.tob-motion .reference-hero,
+  .brand-stage { height: 100lvh; }
+}
