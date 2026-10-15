@@ -86,7 +86,7 @@ export default function Home() {
                     />
                   </span>
                   <span className="mt-3 flex items-end justify-between gap-4 xl:mt-[0.9vw]">
-                    <span className="font-editorial text-[clamp(38px,3vw,58px)] font-medium leading-[0.95] tracking-[-0.035em]">{p.name}</span>
+                    <span className="project-name font-editorial text-[clamp(38px,3vw,58px)] font-medium leading-[0.95] tracking-[-0.035em]">{p.name}</span>
                     <svg
                       aria-hidden
                       viewBox="0 0 16 16"

@@ -142,15 +142,21 @@ export default function ReferenceMotion() {
       });
       return () => { ScrollTrigger.removeEventListener("refreshInit", measure); };
     });
+    let highlightTimer: ReturnType<typeof setTimeout>;
     const navigate = (hash: string, smooth: boolean) => {
       const target = document.getElementById(hash.slice(1));
       if (!target) return false;
       const after = el("[data-reference-after]");
       let y = 0;
       if (hash !== "#top" && after.contains(target)) {
-        let offset = 0;
-        for (let n: HTMLElement | null = target; n && n !== after; n = n.offsetParent as HTMLElement | null) offset += n.offsetTop;
+        const offset = target.getBoundingClientRect().top - after.getBoundingClientRect().top;
         y = (root.classList.contains("tob-motion") ? spacer.offsetHeight : hero.offsetHeight) + offset - (el("[data-site-header]").offsetHeight + 16);
+      }
+      clearTimeout(highlightTimer);
+      intro.querySelectorAll(".is-navigation-target").forEach((node) => node.classList.remove("is-navigation-target"));
+      if (hash !== "#top") {
+        target.classList.add("is-navigation-target");
+        highlightTimer = setTimeout(() => target.classList.remove("is-navigation-target"), 4000);
       }
       history.replaceState(null, "", hash);
       window.scrollTo({ top: y, behavior: !smooth || matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
@@ -162,7 +168,7 @@ export default function ReferenceMotion() {
     };
     document.addEventListener("click", onAnchor);
     const raf = requestAnimationFrame(() => { if (location.hash) navigate(location.hash, false); });
-    return () => { cancelAnimationFrame(raf); document.removeEventListener("click", onAnchor); mm.revert(); };
+    return () => { clearTimeout(highlightTimer); cancelAnimationFrame(raf); document.removeEventListener("click", onAnchor); mm.revert(); };
   }, []);
   return null;
 }

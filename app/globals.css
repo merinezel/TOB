@@ -276,3 +276,10 @@ html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
   html.tob-motion .reference-hero,
   .brand-stage { height: 100lvh; }
 }
+
+/* Connect a clicked menu label to the section reached below. */
+.site-desktop-nav a[aria-current="location"],
+.site-mobile-menu a[aria-current="location"] { color: var(--tobs-red); }
+#work h2, #work .project-name, #hizmetler h2 { transition: color 250ms ease; }
+.is-navigation-target h2, .is-navigation-target .project-name { color: var(--tobs-red); }
+#iletisim.is-navigation-target a[href^="mailto:"] { box-shadow: 0 0 0 6px rgb(196 7 13 / 14%); }
