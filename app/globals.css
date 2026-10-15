@@ -318,3 +318,7 @@ html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }
 #iletisim > a { position: relative; }
 #iletisim.is-navigation-target > a::after { content: ""; position: absolute; left: calc(50% - 36px); bottom: -8px; width: 72px; height: 1px; background: var(--tobs-red); transform-origin: left; pointer-events: none; animation: section-arrival 750ms cubic-bezier(.22,1,.36,1) 750ms both; }
 @media (prefers-reduced-motion: reduce) { #iletisim.is-navigation-target > a::after { animation: none; } }
+
+/* Match the centered contact rule in the other two destination bands. */
+#hizmetler.is-navigation-target::after,
+#work.is-navigation-target::after { left: calc(50% - 36px); }
