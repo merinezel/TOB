@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <main>
       <TobHero>
-      <section id="top" className="tobs-stage relative overflow-hidden bg-cream">
+      <section className="tobs-stage relative overflow-hidden bg-cream">
         <section id="slider" data-brand-stage className="brand-stage" aria-label="The Other Brands">
           <h2 data-brand-destination className="brand-destination" aria-label="the other brands"><BrandName /></h2>
         </section>

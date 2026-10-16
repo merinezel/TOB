@@ -143,16 +143,17 @@ export default function ReferenceMotion() {
       return () => { ScrollTrigger.removeEventListener("refreshInit", measure); };
     });
     const navigate = (hash: string, smooth: boolean) => {
+      if (hash === "#top") hash = "#tob";
       const target = document.getElementById(hash.slice(1));
       if (!target) return false;
       const after = el("[data-reference-after]");
       let y = 0;
-      if (hash !== "#top" && after.contains(target)) {
+      if (hash !== "#tob" && after.contains(target)) {
         const offset = target.getBoundingClientRect().top - after.getBoundingClientRect().top;
         y = (root.classList.contains("tob-motion") ? spacer.offsetHeight : hero.offsetHeight) + offset - (el("[data-site-header]").offsetHeight + 16);
       }
       intro.querySelectorAll(".is-navigation-target").forEach((node) => node.classList.remove("is-navigation-target"));
-      if (hash !== "#top") {
+      if (hash !== "#tob") {
         target.classList.add("is-navigation-target");
       }
       history.replaceState(null, "", hash);

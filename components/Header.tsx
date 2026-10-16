@@ -18,7 +18,7 @@ export default function Header() {
   return (
     <header data-site-header className="site-header">
       <div className="site-header-row">
-        <a href="#top" onClick={() => select("#top")} aria-label={en ? "TOB home" : "TOB ana sayfa"} className="site-logo font-poster">tob<span aria-hidden>.</span></a>
+        <a href="#tob" onClick={() => select("#tob")} aria-label={en ? "TOB home" : "TOB ana sayfa"} className="site-logo font-poster">tob<span aria-hidden>.</span></a>
         <nav aria-label={en ? "Main menu" : "Ana menü"} className="site-desktop-nav">
           {nav.map((n) => <a key={n.href} href={n.href} onClick={() => select(n.href)} aria-current={active === n.href ? "location" : undefined}>{en ? n.labelEn : n.label}</a>)}
         </nav>

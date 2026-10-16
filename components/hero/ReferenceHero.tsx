@@ -27,7 +27,7 @@ const letters = {
 export default function ReferenceHero({ children }: { children: ReactNode }) {
   const en = useLanguage().language === "en";
   [SOURCE, "/hero/letter-b-glossy-v2.png", "/hero/gift-clean-v2.png", "/hero/flower-reference-v2.png"].forEach((src) => preload(src, { as: "image", fetchPriority: "high" }));
-  return <div data-reference-intro className="tob-intro">
+  return <div id="tob" data-reference-intro className="tob-intro">
     <div data-reference-header className="reference-header"><Header /></div>
     <div className="tob-sticky">
       <section data-reference-hero className="reference-hero" aria-label="We Are TOB">
