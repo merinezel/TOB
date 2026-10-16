@@ -325,3 +325,8 @@ html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }
   #iletisim > a { justify-self: center; white-space: nowrap; }
   #iletisim > p:last-child { justify-self: end; text-align: right; }
 }
+
+/* Balance the label independently from the arrow on the shared centre axis. */
+#iletisim > a { position: relative; width: clamp(320px, 24vw, 400px); max-width: 100%; padding-inline: 48px; }
+#iletisim > a > svg { position: absolute; right: 24px; top: 0; bottom: 0; height: 9px; margin-block: auto; }
+@media (max-width: 767px) { #iletisim > a { width: min(100%, 320px); } }

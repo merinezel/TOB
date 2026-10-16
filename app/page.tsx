@@ -128,7 +128,7 @@ export default function Home() {
             href={`mailto:${site.email}?subject=${encodeURIComponent(en ? "Let’s grow our brand" : "Markamızı büyütelim")}`}
             className="group inline-flex items-center justify-center gap-3 rounded-full bg-tobs px-7 py-4 text-[13px] font-semibold uppercase tracking-[0.06em] text-cream transition hover:bg-ink xl:px-[2vw] xl:py-[0.95vw] xl:text-[clamp(12px,0.85vw,15px)]"
           >
-            {en ? "Let’s grow your brand" : "Markanızı büyütelim"}
+            <span className="contact-cta-label">{en ? "Let’s grow your brand" : "Markanızı büyütelim"}</span>
             <svg aria-hidden viewBox="0 0 32 12" fill="none" stroke="currentColor" strokeWidth="1.4" className="w-6 transition-transform duration-500 group-hover:translate-x-1">
               <path d="M0 6h30M25 1l5 5-5 5" />
             </svg>
