@@ -317,3 +317,11 @@ html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }
 #hizmetler.is-navigation-target::after,
 #work.is-navigation-target::after,
 #iletisim.is-navigation-target::after { left: calc(50% - 36px); }
+
+/* Equal side columns put the contact button on the same axis as the divider rules. */
+@media (min-width: 768px) {
+  #iletisim { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 24px; }
+  #iletisim > p:first-child { justify-self: start; }
+  #iletisim > a { justify-self: center; white-space: nowrap; }
+  #iletisim > p:last-child { justify-self: end; text-align: right; }
+}

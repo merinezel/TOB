@@ -161,8 +161,8 @@ export default function ReferenceMotion() {
       return true;
     };
     const onAnchor = (event: MouseEvent) => {
-      const a = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
-      if (a && navigate(a.getAttribute("href")!, true)) event.preventDefault();
+      const a = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]');
+      if (a && navigate(a.hash, true)) event.preventDefault();
     };
     document.addEventListener("click", onAnchor);
     const raf = requestAnimationFrame(() => { if (location.hash) navigate(location.hash, false); });
