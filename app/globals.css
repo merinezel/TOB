@@ -222,7 +222,6 @@ html.tob-motion .reference-original { display: none; }
   .reference-header { opacity: 1; }
   .reference-mobile-copy { display: block; }
   .reference-mobile-copy .tob-copy { top: calc(var(--reference-mobile-top) + 49vw); }
-  .reference-blue { transform: translate(-190px, 650px); }
 }
 
 /* The title paints above the portal artwork, at the measured O centre. */
@@ -330,3 +329,7 @@ html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }
 #iletisim > a { position: relative; width: clamp(320px, 24vw, 400px); max-width: 100%; padding-inline: 48px; }
 #iletisim > a > svg { position: absolute; right: 24px; top: 0; bottom: 0; height: 9px; margin-block: auto; }
 @media (max-width: 767px) { #iletisim > a { width: min(100%, 320px); } }
+
+.site-mobile-menu-heading { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 12px; border-bottom: 1px solid #1112; font-size: 12px; }
+.site-mobile-menu-heading button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 84px; font-weight: 600; }
+.reference-title { will-change: transform, opacity; }
