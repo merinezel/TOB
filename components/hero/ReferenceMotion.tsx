@@ -36,7 +36,8 @@ export default function ReferenceMotion() {
         geo.scale = matrix.a;
         geo.blueX = (hero.clientWidth - (1586 * matrix.a + matrix.e - h.left)) / matrix.a;
         geo.blueY = (hero.clientHeight - (992 * matrix.d + matrix.f - h.top)) / matrix.d + 2;
-        gsap.set(el(".reference-blue"), { x: geo.blueX, y: geo.blueY, svgOrigin: "1586 992", smoothOrigin: false, scale: mobile ? 3 : 1 });
+        const blueScale = mobile ? 3 : 1;
+        el(".reference-blue").setAttribute("transform", `matrix(${blueScale},0,0,${blueScale},${geo.blueX + (1 - blueScale) * 1586},${geo.blueY + (1 - blueScale) * 992})`);
         geo.ox = 769 * matrix.a + matrix.e - h.left;
         geo.oy = 475 * matrix.d + matrix.f - h.top;
         geo.end = Math.max(2.2, (Math.hypot(Math.max(geo.ox, hero.clientWidth - geo.ox),
@@ -138,7 +139,7 @@ export default function ReferenceMotion() {
         tl.to(piece, { x: () => destination().x, y: () => destination().y, duration: end - start }, start)
           .to(piece, { autoAlpha: 0, duration: (end - start) * 0.12 }, end - (end - start) * 0.12);
       });
-      return () => { ScrollTrigger.removeEventListener("refreshInit", measure); };
+      return () => { ScrollTrigger.removeEventListener("refreshInit", measure); el(".reference-blue").removeAttribute("transform"); };
     });
     const navigate = (hash: string, smooth: boolean) => {
       const target = document.getElementById(sectionFromHash(hash)?.id ?? hash.slice(1));
