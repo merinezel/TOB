@@ -15,7 +15,7 @@ const pieces = [
   { id: "spiral", src: "spiral-pink", box: [903, 65, 267, 215], group: "mid" },
   { id: "flower", src: "flower-reference-v2", box: [1195, 207, 345, 330], group: "mid" },
   { id: "gold-left", src: "sphere-gold", box: [273, 611, 48, 48], group: "back" },
-  { id: "gold-right", src: "sphere-gold", box: [1334, 614, 45, 45], group: "back" },
+  { id: "gold-right", src: "sphere-gold", box: [1331, 611, 48, 48], group: "back" },
   { id: "gift", src: "", box: [705, 418, 132, 118], group: "mid" },
 ];
 
