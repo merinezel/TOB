@@ -14,9 +14,8 @@ const pieces = [
   { id: "cup", src: "cup-cream", box: [315, 103, 193, 161], group: "mid" },
   { id: "spiral", src: "spiral-pink", box: [903, 65, 267, 215], group: "mid" },
   { id: "flower", src: "flower-reference-v2", box: [1195, 207, 345, 330], group: "mid" },
-  { id: "gold-left", src: "sphere-gold", box: [273, 506, 48, 48], group: "back" },
-  { id: "gold-right", src: "sphere-gold", box: [1334, 575, 45, 45], group: "back" },
-  { id: "blue", src: "", box: [1220, 710, 400, 297], group: "front" },
+  { id: "gold-left", src: "sphere-gold", box: [273, 611, 48, 48], group: "back" },
+  { id: "gold-right", src: "sphere-gold", box: [1334, 614, 45, 45], group: "back" },
   { id: "gift", src: "", box: [705, 418, 132, 118], group: "mid" },
 ];
 
@@ -33,6 +32,7 @@ export default function ReferenceHero({ children }: { children: ReactNode }) {
       <section data-reference-hero className="reference-hero" aria-label="We Are TOB">
         <h1 className="sr-only">{en ? "We Are TOB. Big brand ideas for small businesses." : "We Are TOB. Küçük işletmeler için büyük marka fikirleri."}</h1>
         <div data-reference-backdrop className="reference-backdrop" aria-hidden />
+        <div data-reference-mobile-ring className="reference-mobile-ring" aria-hidden />
         <svg data-reference-art className="reference-art" viewBox="0 0 1586 992" preserveAspectRatio="xMidYMid meet" aria-hidden>
           <defs>
             {/* Sample the original material without recolouring its highlights. */}
@@ -45,7 +45,6 @@ export default function ReferenceHero({ children }: { children: ReactNode }) {
               <rect x="120" y="170" width="950" height="1045" fill="white" />
               <path d="M416 451H679C758 451 758 554 679 554H416Z M416 816H711C797 816 797 946 711 946H416Z" fill="black" />
             </mask>
-            <clipPath id="ref-blue"><path d="M1234 949C1228 898 1264 856 1328 835C1333 778 1378 733 1420 724C1498 698 1554 740 1586 767V992H1296C1257 996 1242 980 1234 949Z" /></clipPath>
 
             <mask id="ref-ring-mask" maskUnits="userSpaceOnUse" x="565" y="270" width="404" height="402">
               <circle cx="766" cy="470" r="197" fill="white" />
@@ -67,8 +66,8 @@ export default function ReferenceHero({ children }: { children: ReactNode }) {
             </svg>
           </g>
           <g data-reference-letter="o"><ellipse data-reference-shadow cx="771" cy="665" rx="162" ry="15" fill="#6b3422" opacity="0.22" filter="url(#ref-floor)" /><g clipPath="url(#ref-o)" mask="url(#ref-ring-mask)"><image href={SOURCE} width="1586" height="992"  /></g></g>
-          {pieces.map(({ id, src, group, box }) => <g key={id} className={id === "blue" ? "reference-blue" : undefined}>
-            <g data-reference-piece={id} data-depth={group} data-bounds={box.join(",")} filter={id === "blue" ? undefined : "url(#ref-object-shadow)"}>
+          {pieces.map(({ id, src, group, box }) => <g key={id}>
+            <g data-reference-piece={id} data-depth={group} data-bounds={box.join(",")} filter="url(#ref-object-shadow)">
               {id === "gift" ? <svg x={box[0]} y={box[1]} width={box[2]} height={box[3]} viewBox="170 225 965 895" preserveAspectRatio="none" overflow="hidden">
                 <image href="/hero/gift-clean-v2.png" width="1254" height="1254" />
               </svg> : src ? <image href={src === "flower-reference-v2" ? "/hero/flower-reference-v2.png" : `/hero/${src}@2x.webp`} x={box[0]} y={box[1]} width={box[2]} height={box[3]} preserveAspectRatio="none" /> :
@@ -79,8 +78,6 @@ export default function ReferenceHero({ children }: { children: ReactNode }) {
           <g data-reference-services className="reference-desktop"><image href={SOURCE} width="1586" height="992" filter="url(#ref-ink)" clipPath="url(#ref-services)" /></g>
 
 
-          {/* Static fallback uses the complete approved source when motion is disabled. */}
-          <image data-reference-original className="reference-original" href={SOURCE} width="1586" height="992" />
         </svg>
         <span data-reference-title className="tob-brand-text reference-title" aria-hidden><BrandName /></span>
         <div data-reference-cue className="reference-scroll-cue" aria-hidden>

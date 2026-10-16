@@ -213,11 +213,9 @@ html.tob-motion .reference-hero { position: absolute; inset: 0 0 auto; z-index: 
 .reference-art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .reference-header { position: relative; z-index: 40; }
 .reference-mobile-copy { display: none; }
-html.tob-motion .reference-original { display: none; }
 @media (max-width: 767px) {
   .reference-hero { --reference-mobile-top: max(96px, calc(50svh - 44vw + 18px)); }
   .reference-art { width: 100vw; height: 62.55vw; left: 0; top: var(--reference-mobile-top); }
-  .reference-original { clip-path: inset(8% 0 30% 0); }
   .reference-desktop { display: none; }
   .reference-header { opacity: 1; }
   .reference-mobile-copy { display: block; }
@@ -254,7 +252,6 @@ html.tob-motion [data-reference-intro] .tob-after { padding-top: 0; }
 .brand-title-line { display: block; }
 @media (max-width: 767px) { .brand-destination { font-size: clamp(80px,26vw,160px); } .brand-title-other { display: block; } }
 html.tob-motion [data-brand-destination] { visibility: hidden; }
-.reference-original { clip-path: inset(9% 0 0 0); }
 
 html.tob-motion .site-header { background: transparent; backdrop-filter: none; }
 
@@ -299,7 +296,6 @@ html[lang="en"] .reference-mobile-copy { display: block; }
   html[lang="en"] .reference-mobile-copy [data-hero-services] { font-size: clamp(14px,1.1vw,28px); }
 }
 
-html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }
 
 /* Give the two editorial bands the height of the taller content, without fixed cropping. */
 @media (min-width: 1280px) {
@@ -332,3 +328,10 @@ html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }
 
 .site-mobile-menu-close { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 44px; height: 44px; }
 .reference-title { will-change: transform, opacity; }
+
+.reference-mobile-ring { display: none; }
+@media (max-width: 767px) {
+  html.tob-motion .reference-mobile-ring { display: block; position: absolute; z-index: 1; background-image: url('/hero/approved-hero.png'); background-repeat: no-repeat; will-change: transform; pointer-events: none; }
+  html.tob-motion [data-reference-letter="o"] { visibility: hidden; }
+  html.tob-motion .reference-backdrop { will-change: transform; }
+}

@@ -27,18 +27,14 @@ export default function ReferenceMotion() {
       intro.classList.add("is-ready");
       if (!motion) return;
       const O = el('[data-reference-letter="o"]');
-      const geo = { scale: 1, ox: 0, oy: 0, end: 12, blueX: 0, blueY: 0, titleX: 0, titleY: 0, titleSize: 72, startSize: 14, portalScale: 1, textWidth: 1, textHeight: 1 };
+      const mobileRing = el("[data-reference-mobile-ring]");
+      const geo = { scale: 1, ox: 0, oy: 0, end: 12, titleX: 0, titleY: 0, titleSize: 72, startSize: 14, portalScale: 1, textWidth: 1, textHeight: 1 };
       const measure = () => {
         // Use the SVG's mapping itself so the text, plate and O cannot drift on resize.
         const matrix = (art as unknown as SVGSVGElement).getScreenCTM();
         if (!matrix) return;
         const h = hero.getBoundingClientRect();
         geo.scale = matrix.a;
-        geo.blueX = (hero.clientWidth - (1586 * matrix.a + matrix.e - h.left)) / matrix.a;
-        const blueBottom = mobile ? Math.min(hero.clientHeight, innerHeight) : hero.clientHeight;
-        geo.blueY = (blueBottom - (992 * matrix.d + matrix.f - h.top)) / matrix.d + 2;
-        const blueScale = mobile ? 2.1 : 1;
-        el(".reference-blue").setAttribute("transform", `matrix(${blueScale},0,0,${blueScale},${geo.blueX + (1 - blueScale) * 1586},${geo.blueY + (1 - blueScale) * 992})`);
         geo.ox = 769 * matrix.a + matrix.e - h.left;
         geo.oy = 475 * matrix.d + matrix.f - h.top;
         geo.end = Math.max(2.2, (Math.hypot(Math.max(geo.ox, hero.clientWidth - geo.ox),
@@ -46,6 +42,20 @@ export default function ReferenceMotion() {
         backdrop.style.setProperty("--portal-x", `${geo.ox}px`);
         backdrop.style.setProperty("--portal-y", `${geo.oy}px`);
         backdrop.style.setProperty("--portal-r", `${96 * geo.scale}px`);
+        if (mobile) {
+          // Keep source-resolution pixels while the compositor enlarges the ring.
+          Object.assign(mobileRing.style, {
+            width: "404px", height: "402px",
+            left: `${geo.ox - 204}px`, top: `${geo.oy - 205}px`,
+            backgroundSize: "1586px 992px",
+            backgroundPosition: "-565px -270px",
+            transformOrigin: "204px 205px",
+            clipPath: "circle(197px at 201px 200px)",
+            maskImage: "radial-gradient(circle at 204px 205px, transparent 95.5px, #000 96px)",
+          });
+          gsap.set(mobileRing, { scale: geo.scale * geo.portalScale, force3D: true });
+          backdrop.style.transformOrigin = `${geo.ox}px ${geo.oy}px`;
+        }
         const destination = destinationTitle.getBoundingClientRect();
         geo.titleX = destination.left + destination.width / 2 - h.left;
         geo.titleY = destination.top + destination.height / 2 - h.top;
@@ -84,11 +94,14 @@ export default function ReferenceMotion() {
         const scale = stages[i] * Math.pow(stages[i + 1] / stages[i], z.p - i);
         geo.portalScale = scale;
         gsap.set(O, { scale });
-        backdrop.style.setProperty("--portal-r", `${96 * geo.scale * scale}px`);
+        if (mobile) {
+          gsap.set(mobileRing, { scale: geo.scale * scale, force3D: true });
+          gsap.set(backdrop, { scale, force3D: true });
+        } else backdrop.style.setProperty("--portal-r", `${96 * geo.scale * scale}px`);
       };
       const tl = gsap.timeline({ onUpdate: fitTitle, defaults: { ease: "none" }, scrollTrigger: {
         trigger: intro, start: "top top", end: () => `+=${spacer.offsetHeight}`,
-        scrub: 0.8, invalidateOnRefresh: true, onRefresh: () => { zoom(); fitTitle(); },
+        scrub: mobile ? 0.25 : 0.8, invalidateOnRefresh: true, onRefresh: () => { zoom(); fitTitle(); },
       } });
       // The same artwork layers render from the first frame through the entire scroll.
       tl.to(el("[data-site-header]"), { backgroundColor: "rgba(244,233,220,0.94)", duration: 0.1 }, 0.4)
@@ -140,7 +153,7 @@ export default function ReferenceMotion() {
         tl.to(piece, { x: () => destination().x, y: () => destination().y, duration: end - start }, start)
           .to(piece, { autoAlpha: 0, duration: (end - start) * 0.12 }, end - (end - start) * 0.12);
       });
-      return () => { ScrollTrigger.removeEventListener("refreshInit", measure); el(".reference-blue").removeAttribute("transform"); };
+      return () => { ScrollTrigger.removeEventListener("refreshInit", measure); mobileRing.removeAttribute("style"); backdrop.style.removeProperty("transform"); backdrop.style.removeProperty("transform-origin"); };
     });
     const navigate = (hash: string, smooth: boolean) => {
       const target = document.getElementById(sectionFromHash(hash)?.id ?? hash.slice(1));
