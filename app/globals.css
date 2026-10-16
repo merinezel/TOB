@@ -330,6 +330,5 @@ html[lang="en"] .reference-original { clip-path: inset(9% 0 30% 0); }
 #iletisim > a > svg { position: absolute; right: 24px; top: 0; bottom: 0; height: 9px; margin-block: auto; }
 @media (max-width: 767px) { #iletisim > a { width: min(100%, 320px); } }
 
-.site-mobile-menu-heading { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 12px; border-bottom: 1px solid #1112; font-size: 12px; }
-.site-mobile-menu-heading button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 84px; font-weight: 600; }
+.site-mobile-menu-close { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 44px; height: 44px; }
 .reference-title { will-change: transform, opacity; }

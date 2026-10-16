@@ -35,8 +35,9 @@ export default function ReferenceMotion() {
         const h = hero.getBoundingClientRect();
         geo.scale = matrix.a;
         geo.blueX = (hero.clientWidth - (1586 * matrix.a + matrix.e - h.left)) / matrix.a;
-        geo.blueY = (hero.clientHeight - (992 * matrix.d + matrix.f - h.top)) / matrix.d + 2;
-        const blueScale = mobile ? 3 : 1;
+        const blueBottom = mobile ? Math.min(hero.clientHeight, innerHeight) : hero.clientHeight;
+        geo.blueY = (blueBottom - (992 * matrix.d + matrix.f - h.top)) / matrix.d + 2;
+        const blueScale = mobile ? 2.1 : 1;
         el(".reference-blue").setAttribute("transform", `matrix(${blueScale},0,0,${blueScale},${geo.blueX + (1 - blueScale) * 1586},${geo.blueY + (1 - blueScale) * 992})`);
         geo.ox = 769 * matrix.a + matrix.e - h.left;
         geo.oy = 475 * matrix.d + matrix.f - h.top;

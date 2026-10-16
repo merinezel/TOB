@@ -42,14 +42,11 @@ export default function Header() {
         <div className="site-header-actions">
           <LanguageSwitch />
           <a data-project-cta href={mailHref} className="site-project-cta">{en ? "Let’s talk" : "Projenizi konuşalım"} <span aria-hidden>→</span></a>
-          <button ref={toggle} type="button" className="site-menu-toggle" aria-expanded={open} aria-controls="site-mobile-menu" onClick={() => setOpen(!open)}>{open ? (en ? "Close" : "Kapat") : (en ? "Menu" : "Menü")}</button>
+          <button ref={toggle} type="button" className="site-menu-toggle" aria-expanded={open} aria-controls="site-mobile-menu" onClick={() => setOpen(!open)}>{en ? "Menu" : "Menü"}</button>
         </div>
       </div>
       {open && <nav id="site-mobile-menu" aria-label={en ? "Mobile menu" : "Mobil menü"} className="site-mobile-menu">
-        <div className="site-mobile-menu-heading">
-          <span>{en ? "Menu" : "Menü"}</span>
-          <button type="button" data-menu-close aria-label={en ? "Close menu" : "Menüyü kapat"} onClick={close}>{en ? "Close" : "Kapat"}<svg aria-hidden viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="m4 4 12 12M16 4 4 16" /></svg></button>
-        </div>
+        <button type="button" className="site-mobile-menu-close" data-menu-close aria-label={en ? "Close menu" : "Menüyü kapat"} onClick={close}><svg aria-hidden viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="m4 4 12 12M16 4 4 16" /></svg></button>
         {links.map((n) => <a key={n.href} href={n.href} onClick={() => select(n.href)} aria-current={active === n.href ? "location" : undefined}>{en ? n.labelEn : n.label}</a>)}
         <a data-mobile-project-cta href={mailHref} onClick={() => setOpen(false)}>{en ? "Let’s talk" : "Projenizi konuşalım"} →</a>
       </nav>}
